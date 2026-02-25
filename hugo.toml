@@ -1,0 +1,80 @@
+baseURL = 'https://note.xicuodev.top/'
+languageCode = 'zh-cn'
+title = '系错的技术笔记'
+defaultContentLanguage = 'zh-cn'
+
+disableKinds = []
+
+[module]
+  [module.imports]
+    path = 'github.com/imfing/hextra'
+
+[params]
+  shortName = '系错的技术笔记'
+  description = '复习自用，公开查阅，望共同进步。'
+  keywords = '笔记, 技术栈, Java'
+  externalLinkDecoration = true
+  [params.author]
+    name = '系错'
+    email = 'xicuod@outlook.com'
+  [params.socialLinks]
+    github = 'https://github.com/Dobefu/hugo-theme-plume'
+    # Enable social links by uncommenting any of the following lines.
+    # bluesky = 'https://bsky.app/profile/<your-bluesky-username>'
+    # discord = 'https://discord.gg/<your-discord-server-invite-link>'
+    # facebook = 'https://www.facebook.com/<your-facebook-username>'
+    # github = 'https://github.com/<your-github-username>/<your-repository-name>'
+    # instagram = 'https://www.instagram.com/<your-instagram-username>'
+    # linkedin = 'https://www.linkedin.com/company/<your-linkedin-company-name>'
+    # pinterest = 'https://www.pinterest.com/<your-pinterest-username>'
+    # reddit = 'https://www.reddit.com/r/<your-reddit-subreddit-name>'
+    # telegram = 'https://t.me/<your-telegram-username>'
+    # tiktok = 'https://www.tiktok.com/@<your-tiktok-username>'
+    # twitter = 'https://twitter.com/<your-twitter-username>'
+    # whatsapp = 'https://wa.me/<your-whatsapp-number>'
+    # youtube = 'https://www.youtube.com/@<your-youtube-username>'
+  [params.navbar]
+    displayTitle = true
+    displayLogo = true
+    [params.navbar.logo]
+      path = 'img/logo.png'
+      dark = 'img/logo.png'
+      link = '/'
+      width = 40
+      height = 20
+  [params.comments]
+    enable = true
+    type = 'giscus'
+    [params.comments.giscus]
+      repo = 'xicuod/xicuod.github.io'
+      repoId = 'R_kgDORYWR9A'
+      category = 'General'
+      categoryId = 'DIC_kwDORYWR9M4C3LS4'
+      mapping = 'pathname'
+      strict = '1'
+      reactionsEnabled = '1'
+      emitMetadata = '0'
+      inputPosition = 'top'
+      theme = 'preferred_color_scheme'
+      lang = 'zh-CN'
+      crossorigin = 'anonymous'
+
+[menus]
+  [[menus.main]]
+    name = '主页'
+    pageRef = '/'
+    weight = 1
+
+  [[menus.main]]
+    name = 'Java 技术栈'
+    pageRef = '/java/'
+    weight = 2
+  
+  [[menus.main]]
+    name = '搜索'
+    weight = 9_999
+    [menus.main.params]
+      type = 'search'
+
+[outputs]
+  home = ['html', 'rss']

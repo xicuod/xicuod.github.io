@@ -1,0 +1,12 @@
+{{- $scriptsBody := slice }}
+{{- range resources.Match "js/core/*.js" -}}
+  {{ $scriptsBody = $scriptsBody | append (resources.ExecuteAsTemplate .Name $ .) }}
+{{- end -}}
+
+{{- if gt (len $scriptsBody) 0 -}}
+  {{- $scripts := $scriptsBody | resources.Concat "js/main.js" -}}
+  {{- if hugo.IsProduction -}}
+    {{- $scripts = $scripts | minify | fingerprint -}}
+  {{- end -}}
+  <script defer src="{{ $scripts.RelPermalink }}" integrity="{{ $scripts.Data.Integrity }}"></script>
+{{- end -}}
