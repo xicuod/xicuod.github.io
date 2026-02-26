@@ -7,4 +7,4 @@ title: Java 注释
 - 多行注释：`/* */`
 - 文档注释：`/** */`
 
-[`javadoc` 生成 API 文档](java-cli/javadoc.md)
+[`javadoc` 生成 API 文档]() <!-- java-cli/javadoc.md -->

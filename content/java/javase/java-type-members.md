@@ -1,5 +1,5 @@
 ---
-weight: 110
+weight: 120
 slug: java-type-members
 title: Java 类型成员
 ---
