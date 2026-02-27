@@ -1,5 +1,6 @@
 ---
 title: Java 技术栈
+slug: java
 cascade:
   type: docs
 ---

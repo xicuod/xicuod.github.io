@@ -37,7 +37,7 @@ public class Operator {
 
 `x instanceof y` 返回 `x` 实例是否是 `y` 类型的布尔值。
 
-- `instanceof` 目的是处理[多态]()，当你不确定一个抽象的泛型对象或接口引用指向的具体子类实例时，可以用它来做类型判断和处理。
+- `instanceof` 目的是处理[多态]({{% sref "java-polymorphism" %}})，当你不确定一个抽象的泛型对象或接口引用指向的具体子类实例时，可以用它来做类型判断和处理。
 - 若对象实际类型和指定类型不在同一条继承链上，则直接编译错误，因为这是无意义的。
 
 > [!caution] `str instanceof Integer` 会导致编译错误
@@ -47,7 +47,7 @@ public class Operator {
 `instanceof` 的用途：
 
 - 向下转型前判断合法性：`if (animal instanceof Dog) Dog dog = (Dog) animal;`
-- 处理接口：`list instanceof RandomAccess`（`list` 是否实现 `RandomAccess` 接口）
+- 处理接口：`list instanceof RandomAccess`(`list` 是否实现 `RandomAccess` 接口)
   - 如果是 `ArrayList`，它实现了 `RandomAccess` 接口，那么可以用 `for` 高效遍历
   - 如果是 `LinkedList`，则用 `for in` 迭代器遍历更高效
 - Java 14 模式匹配：`animal instanceof Dog dog`，如果 `animal` 是 `Dog` 类型，自动创建 `dog` 变量指向该对象

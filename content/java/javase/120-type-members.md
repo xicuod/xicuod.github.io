@@ -3,13 +3,14 @@ weight: 120
 slug: java-type-members
 title: Java 类型成员
 ---
+
 Java 的类型成员在类和枚举中，有字段、方法、构造器、内部类、枚举常量和注解元素。
 
 ### 字段 Field​
 
-* 实例字段：每个对象独立持有的状态变量
-* 静态字段=类字段​​：类级别共享的状态变量
-* 常量字段：使用 `public static final` 声明
+- 实例字段：每个对象独立持有的状态变量
+- 静态字段 = 类字段​​：类级别共享的状态变量
+- 常量字段：使用 `public static final` 声明
 
 ```java
 class Person {
@@ -21,10 +22,10 @@ class Person {
 
 ### 方法 Method
 
-* 实例方法：操作对象状态的方法
-* 静态方法：类级别的方法
-* 抽象方法：在抽象类/接口中声明
-* 默认方法：接口中的默认实现（Java 8+）
+- 实例方法：操作对象状态的方法
+- 静态方法：类级别的方法
+- 抽象方法：在抽象类 / 接口中声明
+- 默认方法：接口中的默认实现 (Java 8+)
 
 ```java
 abstract class Animal {
@@ -40,8 +41,8 @@ interface Walkable {
 
 ### 构造器 Constructor
 
-* 实例构造器：初始化新对象
-* 静态初始化块：类加载时执行（类似C#静态构造器）
+- 实例构造器：初始化新对象
+- 静态初始化块：类加载时执行 (类似 C# 静态构造器)
 
 ```java
 class Car {
@@ -53,17 +54,17 @@ class Car {
 }
 ```
 
-### 嵌套类=内部类 Nested Class
+### 嵌套类 = 内部类 Nested Class
 
-[Java内部类]()
+[Java 内部类]()
 
-* 静态内部类：相当于顶级类
-* 一般内部类：外部类中声明，与外部类实例关联
-* 匿名内部类：无类名的内联实现，可以是父类的子类或接口的实现类
-	* `new` 关键字后跟父类名或接口名，再跟匿名类的类体，直接创建一个匿名类的实例：
-    ```java
-    Runnable on = new Runnable() { public void run() {/* on 的具体实现 */} };
-    ```
+- 静态内部类：相当于顶级类
+- 一般内部类：外部类中声明，与外部类实例关联
+- 匿名内部类：无类名的内联实现，可以是父类的子类或接口的实现类
+  - `new` 关键字后跟父类名或接口名，再跟匿名类的类体，直接创建一个匿名类的实例：
+  ```java
+  Runnable on = new Runnable() { public void run() {/* on 的具体实现 */} };
+  ```
 
 ```java
 class Computer {
@@ -82,7 +83,7 @@ class Computer {
 
 ### 枚举常量 Enum Constant
 
-* 特殊类型的静态 `final` 字段
+- 特殊类型的静态 `final` 字段
 
 ```java
 enum Planet {
@@ -95,7 +96,7 @@ enum Planet {
 
 ### 注解元素 Annotation Element
 
-* 类似方法声明的属性定义
+- 类似方法声明的属性定义
 
 ```java
 @interface Author {

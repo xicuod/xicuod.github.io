@@ -3,6 +3,7 @@ weight: 50
 slug: java-identifier
 title: Java 标识符
 ---
+
 **Java 标识符**是程序员给具体 Java 对象的自定义名称，如类名、方法名、变量名等。
 
 ## Java 标识符的命名规则

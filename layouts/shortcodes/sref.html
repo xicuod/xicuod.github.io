@@ -1,0 +1,19 @@
+{{- $input := .Get 0 -}}
+{{- $parts := split $input "#" -}}
+{{- $slug := index $parts 0 -}}
+{{- $anchor := "" -}}
+{{- if gt (len $parts) 1 -}}
+{{- $anchor = delimit (after 1 $parts) "#" -}} {{- /* 重新组合可能存在的多个 # */ -}}
+{{- end -}}
+
+{{- $page := where site.Pages "Params.slug" $slug -}}
+{{- if eq (len $page) 1 -}}
+{{- $page := index $page 0 -}}
+{{- $url := $page.RelPermalink -}}
+{{- if $anchor -}}
+{{- $url = printf "%s#%s" $url $anchor -}}
+{{- end -}}
+{{- $url | safeURL -}}
+{{- else -}}
+{{- errorf "Slug '%s' 找到 %d 个页面，期望唯一匹配" $slug (len $page) -}}
+{{- end -}}

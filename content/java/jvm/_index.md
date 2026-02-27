@@ -1,5 +1,6 @@
 ---
 title: Java 虚拟机 (JVM)
+slug: jvm
 ---
 
 ## JVM 学习路线图 Roadmap
@@ -18,7 +19,7 @@ title: Java 虚拟机 (JVM)
     7. 字符串常量池：[JVM字符串常量池StringTable](https://ris3team.feishu.cn/wiki/GrrzwtrlciPRcSkulMqcKEbSnqh)
     8. 直接内存：[JVM直接内存 Direct Memory](https://ris3team.feishu.cn/wiki/PS1OwQPkMihTj5keZW9clLTXnRc)
 2. 垃圾回收机制 GC：[JVM垃圾回收GC](https://ris3team.feishu.cn/wiki/I403wuRQkiWSXdkgSeMcR4KWnJd)
-3. Java类二进制字节码：[Java 类字节码]({{< ref "jvm-class-file-structure.md" >}})
+3. Java类二进制字节码：[Java 类字节码]({{% sref "jvm-class-file-structure" %}})
 4. 类加载器 ClassLoader
 5. 即时编译器 JIT Compiler
 6. 其他

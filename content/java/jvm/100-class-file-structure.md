@@ -39,7 +39,7 @@ title: JVM 类文件结构
 * 方法定义：写在`{}`中
   * `descriptor`=描述符
   * `flags`=修饰符
-  * `code`=[JVM 指令]({{< ref "jvm-bytecode-instruction.md" >}})
+  * `code`=[JVM 指令]({{% sref "jvm-bytecode-instruction" %}})
     * `stack`=栈号，`locals`=局部变量个数（算上`args`），`args_size`=参数大小
 
 ```

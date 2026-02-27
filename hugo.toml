@@ -19,6 +19,11 @@ disableKinds = []
     name = 'Java 技术栈'
     pageRef = '/java/'
     weight = 2
+
+  [[menus.main]]
+    name = '.NET 技术栈'
+    pageRef = '/dotnet/'
+    weight = 3
   
   [[menus.main]]
     name = '搜索'
@@ -75,6 +80,17 @@ disableKinds = []
       theme = 'preferred_color_scheme'
       lang = 'zh-CN'
       crossorigin = 'anonymous'
+    [params.imageZoom]
+      enable = true
+    [params.blog.list]
+      displayTags = true
+    [params.toc]
+      displayTags = true
+
+[permalinks]
+  [permalinks.page]
+    java = '/:slug/'
+    dotnet = '/:slug/'
 
 [markup.goldmark.extensions.passthrough]
 enable = true
