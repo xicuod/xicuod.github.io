@@ -31,9 +31,41 @@ title: Java 多态
 - 处理多态：[`instanceof` 操作符]({{% sref "java-operators#类型检测操作符-x-instanceof-y" %}})
 - 避免多态：[泛型](Java泛型.md)
 
-## 多态的用例
+## 多态的用例：重写 `Object` 基类的 `equals` 方法
 
-- [重写 `Object` 基类的 `equals` 方法]()
+```java
+/* 重写 Object 基类的 equals 方法 */
+@Override
+public boolean equals(Object obj) {
+    /* 边界判断 */
+    if (obj == this) return true; /* 与本身比较，返回 true */
+    if (obj == null) return false; /* 传入空指针，返回 false */
+    if (!(obj instanceof Person)) return false;
+    /* 本非 Person 类对象，则返回 false */
+    /* 防止 ClassCastException (类型转换异常) */
+    
+    Person p = (Person) obj; /* 强制向下转型 */
+    return this.title.equals(game.title) && this.year == game.year;
+    /* 这里的 equals 方法属于 String 类，不是同一个 */
+}
+```
+
+支持 Java 7 的 IDEA 模板：
+
+```java
+@Override
+public boolean equals(Object o) {
+    /* 特例 */
+    if (this == o) return true; /* 地址相等，返回 true */
+    if (o == null || getClass() != o.getClass()) return false;
+    /* 传入空指针，或不同类，返回 false */
+    
+    /* 惯例 */
+    Game game = (Game) o;
+    return year == game.year && Objects.equals(title, game.title);
+    /* Objects 类的静态方法 equals，可防止 NullPointerException (空指针异常) */
+}
+```
 
 ## 多态的前提条件
 

@@ -54,9 +54,9 @@ class Car {
 }
 ```
 
-### 嵌套类 = 内部类 Nested Class
+### 嵌套类/内部类 Inner Class
 
-[Java 内部类]()
+[Java 内部类]({{% sref "java-inner-class" %}})
 
 - 静态内部类：相当于顶级类
 - 一般内部类：外部类中声明，与外部类实例关联

@@ -33,4 +33,4 @@ title: Java 包装类
 
 ## Java 拆箱（以 `Integer` 类为例）
 
-- 实例方法拆箱：`Integer` 类实例方法`int intValue()` 返回 `Integer` 对象对应的int整数
+- 实例方法拆箱：`Integer` 类的实例方法 `int intValue()` 返回 `Integer` 对象对应的 `int` 整数

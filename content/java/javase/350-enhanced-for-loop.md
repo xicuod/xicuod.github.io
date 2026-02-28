@@ -1,5 +1,5 @@
 ---
-weight: 80
+weight: 350
 slug: java-enhanced-for-loop
 title: Java 增强 for 循环
 ---
