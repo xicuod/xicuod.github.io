@@ -1,26 +1,26 @@
 ---
 weight: 160
-slug: java-array-list
-title: Java ArrayList 类
+slug: java-util-array-list
+title: java.util.ArrayList
 ---
 
 数组的长度无法改变，但 `ArrayList` 的长度可变。
 
 1. `ArrayList` 只能装引用类型，不能装基本类型：能装 `String`，不能装 `int`。
-2. 基本类型数据必须装箱后再存入 `ArrayList`，即使用对应的[包装类](../../../Java常用类/Java基本类型的包装类.md)。
-3. 一个 `ArrayList` 只能装同类型的包装类对象引用，具体什么类型需要指定 `ArrayList` 的[泛型](../../../Java面向对象/Java泛型.md)。
+2. 基本类型数据必须装箱后再存入 `ArrayList`，即使用对应的[包装类]()。
+3. 一个 `ArrayList` 只能装同类型的包装类对象引用，具体什么类型需要指定 `ArrayList` 的[泛型]()。
 
 ```java
 ArrayList<String> list = new ArrayList<>();
 ```
 
 - 增：
-  - `add(E elememt): boolean`：添加元素，返回是否添加成功，[自动装箱](../../../Java面向对象/Java5自动装拆箱.md)
+  - `add(E elememt): boolean`：添加元素，返回是否添加成功（[自动装箱]()）
   - `addAll(Collection<? extends E> c): boolean`：添加参数的所有元素，返回是否添加成功
 - 删：`remove(int index): E`：删除指定索引的元素并返回 (删除的元素)
 - 改：`set(int index, E element): E`：返回被改的元素
 - 查：
-  - `get(int index): E`：获取指定索引的元素并返回，[自动拆箱](../../../Java面向对象/Java5自动装拆箱.md)
+  - `get(int index): E`：获取指定索引的元素并返回（[自动拆箱]()）
   - `size(): int`：获取长度并返回
   - `contains(Object o): boolean`：返回元素是否在 `ArrayList` 中
   - `toString()`：`ArrayList` 重写了 `toString` 方法，打印出的不是地址，而是元素内容，列表为空时打印 `[]`

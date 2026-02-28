@@ -17,8 +17,6 @@ title: Java final 关键字
   - 成员变量若用 `final` 关键字修饰，不会隐式初始化，必须显式赋初值。
   - 显式赋值分为两种：在声明时直接赋值；在所有构造方法中赋值。
 
-例子：
-
 ```java
 public class Final {
     final int num = 100;

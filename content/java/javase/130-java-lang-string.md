@@ -1,15 +1,15 @@
 ---
 weight: 130
-slug: java-string
-title: Java 字符串
+slug: java-lang-string
+title: java.lang.String
 ---
 
-在此之前，最好先了解 [字符类型]({{% sref "java-data-types#数值类型-字符" %}})。
+在此之前，最好先了解[字符类型]({{% sref "java-data-types#数值类型-字符" %}})。
 
 ## 字符串的特性
 
 - 不可变性：`final`，字符串对象的内容不可改变。
-- JDK8 及以前底层为字符数组 `char[]`，JDK9 起底层为字节数组 `byte[]`。
+- JDK 8 及以前底层为字符数组 `char[]`，JDK9 起底层为字节数组 `byte[]`。
 
 ## 字符串的声明并赋值
 

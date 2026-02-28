@@ -1,10 +1,10 @@
 ---
 weight: 140
-slug: java-string-builder
-title: Java StringBuilder 类
+slug: java-lang-string-builder
+title: java.lang.StringBuilder
 ---
 
-**`StringBuilder` 类** 维护一个字符串缓冲区，用于构造可变长的字符串。与 `String` 类的字符串字面常量不同，底层的 `byte[]` 字节数组没有 `final` 修饰，可以改变长度。
+**`StringBuilder` 类**维护一个字符串缓冲区，用于构造可变长的字符串。与 `String` 类的字符串字面常量不同，底层的 `byte[]` 字节数组没有 `final` 修饰，可以改变长度。
 
 ```java
 /* String类底层 */ private final byte[] value;
