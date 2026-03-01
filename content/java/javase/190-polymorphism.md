@@ -50,7 +50,7 @@ public boolean equals(Object obj) {
 }
 ```
 
-支持 Java 7 的 IDEA 模板：
+支持 Java 7 的 IntelliJ IDEA 模板：
 
 ```java
 @Override
