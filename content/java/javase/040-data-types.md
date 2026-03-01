@@ -12,7 +12,7 @@ Java 不是完全面向对象的语言，它更务实，提供了 8 种把数据
   - 整数类型：`byte` 1 (取值范围 - 128\~127), `short` 2, `int` 4, `long` 8
   - 浮点类型：`float` 4, `double` 8, `BigDecimal` (金融)
   - 字符类型：`char` 2
-- 布尔类型：`boolean` 1b=1 位 = 1 比特
+- 布尔类型：`boolean` 1b = 1 位 = 1 比特
 
 ![Java 基本数据类型的取值范围和内存占用](https://img.xicuodev.top/2026/02/2b40b5890c9e642d191304e6e91b2bde.png "Java 基本数据类型的取值范围和内存占用")
 
@@ -43,19 +43,48 @@ Java 不是完全面向对象的语言，它更务实，提供了 8 种把数据
 
 ### 数值类型 - 字符
 
-`char` 类型固定占用 2 个字节 (16 位)，Java 采用 UTF-16BE 编码格式处理字符。
+`char` 类型固定占用 2 个字节 (16 位)，Java 采用 **UTF-16BE** 编码格式存储和处理字符。
 
-- 1 个 UTF-16 码元 = 2 字节 = 16 位，一个 Unicode 字符的码位为 1 或 2 个码元
-  - 1 个 BMP 字符的 UTF-16 码位 = 1 个 UTF-16 码元
-  - 1 个辅助平面字符的 UTF-16 码位 = 2 个 UTF-16 码元
-  - [Unicode 基本多文种平面 BMP 和辅助平面](http://blog.xicuodev.top/notes/20260222-character-encoding/#unicode%E4%B8%87%E5%9B%BD%E7%A0%81%E6%A0%87%E5%87%86)
-- 一个 `char` 宽 2 字节，可以存一个 BMP 字符。
-- 辅助平面字符长 2 个 UTF-16 码元 = 4 字节，需要代理对，即两个 `char` 按字符串存储。
+- 1 个 UTF-16 [码元](http://blog.xicuodev.top/notes/20260222-character-encoding/#码位和码元) = 2 字节 = 16 位，1 个 Unicode 字符的码位为 1 或 2 个码元
+  - 1 个 [BMP](http://blog.xicuodev.top/notes/20260222-character-encoding/#unicode-平面) 字符的 UTF-16 码位 = 1 个 UTF-16 码元
+  - 1 个辅助平面字符 (增补字符) 的 UTF-16 码位 = 2 个 UTF-16 码元
+- 1 个 `char` 宽 2 字节，可以存 1 个 BMP 字符。
+- 1 个增补字符宽 2 个 UTF-16 码元 = 4 字节，需要代理对，即两个 `char` 按字符串存储。
 
 `char` 的转义写法是 `\u` 转义符 + 1 个十六进制 UTF-16 码元，如 `'\u0000'` 表示 `'0'` (`char` 的初始值)，`'\u0061'` 表示 `'a'`；一些特殊符号有简写法：`\b` 退格，`\n` 换行，`\r` 回车，`\t` 制表，`\'` 单引号，`\"` 双引号，`\\` 反斜杠。
 
 ```java
+/* 增补字符用代理对表示 */
 String s = "\uD840\uDC00"; /* 𠀀 */
+```
+
+#### 字符的比较
+
+在 Java 中，字符比较 (包括 `char` 类型和 `String` 的字典序比较) 比较的是 UTF-16 编码后的二进制数值，也就是 `char` 所代表的 16 位无符号整数的值，而不是直接比较 Unicode 码位。
+
+```java
+/* 比较两个增补字符 */
+String s1 = "𝕫"; /* U+1D56B，代理对：0xD835, 0xDD6B */
+String s2 = "𝕬"; /* U+1D56C，代理对：0xD835, 0xDD6C */
+System.out.println(s1.compareTo(s2)); 
+/* 由于高代理项相同 (0xD835)，比较低代理项：0xDD6B < 0xDD6C，结果为负 */
+```
+
+Java 中的字符比较基于 UTF-16 码元的数值，这是语言规范定义的，确保了内存表示与比较操作的一致性。
+
+> [!tip] UTF-16BE 的保序性
+>
+> UTF-16 的编码值与 Unicode 码位之间是**正相关的**，基于 UTF-16 码元的比较结果与基于码位的比较结果完全一致。Java 内部使用 UTF-16BE (大端序)，比较时直接按内存中的 16 位值从低地址开始比较，因此完全保留码位顺序。UTF-16LE 若不经字节交换则不保序，但 Java 统一采用 BE，所以无此问题。这种保序性质使得字符串排序、范围查找等操作可以直接基于 UTF-16 编码进行，无需解码，提高了效率。
+>
+> **代理对**不会造成顺序混乱。BMP 中的 `U+D800` ~ `U+DFFF` 是专门为代理对预留的，不会分配给任何有效字符，因此在有效的 Unicode 字符串中不会出现单独的代理项，造成顺序混乱。因为代理项一定是成双成对的，如果出现单独的一个 `U+D800` ~ `U+DFFF` 中的代理项，则这个 Unicode 字符串无效。
+
+```java
+/* 检查字符大小写 */
+/* 原理：`A-Z` 和 `a-z` 的 Unicode 码位是按字母表顺序排列的 */
+public boolean isUpper(char ch) {
+	if ('A' <= ch && ch <= 'Z') return true; /* upper */
+	if ('a' <= ch && ch <= 'z') return false; /* lower */
+}
 ```
 
 ## 引用类型 Reference Types

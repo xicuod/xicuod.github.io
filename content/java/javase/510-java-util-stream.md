@@ -1,7 +1,7 @@
 ---
 weight: 510
 slug: java-util-stream
-title: java.util.stream
+title: Java Stream 流
 ---
 
 **`Stream` 流**类似工厂的流水线，它在设计时使用的是**管道-过滤器**思想。`java.util.stream` 包中包含了所有 `Stream` 流的类。
