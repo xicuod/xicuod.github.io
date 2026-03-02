@@ -12,8 +12,8 @@ title: JVM、JRE 和 JDK
   - JVM + 核心类库 + 运行工具
     - `java` 运行工具
 
-- JDK (Java Development Kit, Java 开发工具包) = Java SDK：
-  - JVM + 核心类库 + 编译 / 开发工具
+- JDK (Java Development Kit, Java SDK, Java 开发工具包)：
+  - JVM + 核心类库 + 编译、开发工具
     - `javac` 编译工具
     - `jdb` 调试工具
     - `jhat` 内存分析工具

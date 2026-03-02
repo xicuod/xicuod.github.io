@@ -6,10 +6,10 @@ title: Java 数据类型
 
 ## 基本类型 Primitive Types
 
-Java 不是完全面向对象的语言，它更务实，提供了 8 种把数据直接存在栈中的基本类型，同时它们都有自己的包装类 (wrapper class，装拆箱)。
+Java 不是完全[面向对象]({{% sref "java-oop" %}})的语言，它更务实，提供了 8 种把数据直接存在栈中的基本类型，同时它们都有自己的**包装类** (wrapper class)。
 
 - 数值类型 (numeric-types)：
-  - 整数类型：`byte` 1 (取值范围 - 128\~127), `short` 2, `int` 4, `long` 8
+  - 整数类型：`byte` 1 (取值范围 `-128`~`127`), `short` 2, `int` 4, `long` 8
   - 浮点类型：`float` 4, `double` 8, `BigDecimal` (金融)
   - 字符类型：`char` 2
 - 布尔类型：`boolean` 1b = 1 位 = 1 比特

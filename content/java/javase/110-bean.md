@@ -4,7 +4,7 @@ slug: java-bean
 title: Java Bean
 ---
 
-Java Bean (“爪哇咖啡豆”) 是 Java 面向对象规范约定的一种类的定义格式。
+Java Bean (“爪哇咖啡豆”) 是 Java [面向对象]({{% sref "java-oop" %}})规范约定的一种类的定义格式。
 
 定义一个 Java Bean 要遵循以下四点：
 

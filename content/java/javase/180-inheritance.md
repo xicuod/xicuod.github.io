@@ -12,16 +12,46 @@ Java 中的类只有单继承，没有多继承。
 
 - 类和类之间的关系：继承、依赖、组合、聚合等。
 - 子类和父类之间是“is-a”(“是一个”)关系：子类对象也是一个父类对象，子类变量可以引用父类对象。
-- `Object` 类：`java.lang.Object`，所有的类都直接或间接地继承 `Object` 类。
+- `java.lang.Object` 类：所有的类都直接或间接地继承 `Object` 类。
 
-### `super` 关键字
+## 子类对象构造机理
 
-子类用 `super` 关键字访问父类成员，可以访问被子类继承但隐藏的父类的原始成员。[Java 子类对象构造机理](Java子类对象构造机理.md)。
+子类构造方法默认在最开始隐式调用父类无参构造方法 `super()`，但显式的 `super()` 会覆盖隐式的。只有子类构造方法才能调用父类构造方法。
+
+```java
+public class Son extends Father {
+	public Son() {
+		super(); /* 显式的 super() 会覆盖隐式的 */
+	}
+}
+```
+
+在子类构造方法首行用 `super()` 显式调用父类的构造方法，这会覆盖隐式的 `super()` 无参调用。父类构造方法只能调用一次，且必须在最开始就调用（这里 Java 高版本情况有所不同）。
+
+```java
+public class Father {
+	int num = 0;
+	public Father() {}
+	public Father(int num) { this.num = num; }
+}
+```
+
+```java
+public class Son extends Father {
+	public Son() {
+		super(92613); /* 显式调用父类重载的构造方法 */
+	}
+}
+```
+
+## `super` 关键字
+
+子类用 `super` 关键字访问父类成员，可以访问被子类继承但隐藏的父类的原始成员。
 
 - `super()`：子类构造器调用父类构造器，必须有且在且只在子类构造器第一行，默认隐式添加父类的无参构造 `super()`。
 - `this()`：子类构造器调用其他子类构造器，不必有，有则必须在且只在子类构造器第一行。
 
-### 方法重写
+## 方法重写
 
 方法重写是子类方法覆盖父类方法，是[多态]({{% sref "java-polymorphism" %}})的基础。
 
@@ -36,20 +66,21 @@ Java 中的类只有单继承，没有多继承。
 >
 > 方法重写要加注解 `@Override`，来让编译器检查重写是否有效。如果方法名和返回值都相同，结果参数列表不同，导致重写变成了重载，那么编译器看到 `@Override` 就知道你本意不是想重载，于是抱怨你把重写搞砸了，否则编译器会误以为你是想重载，也给你编译通过了，也不知道你搞砸了。
 
-- IntelliJ IDEA 热键 `Alt+Ins`：快速生成重写方法代码
+- IntelliJ IDEA 热键 `Alt+Ins`：快速生成重写方法代码。
 
-### 重写与隐藏
+## 重写与隐藏
 
 重写机制下子类无法访问父类的原始方法，隐藏机制下子类有办法访问父类的原始方法。
 
 - 同名同签名的非静态方法：子类对象只访问子类的方法，是重写。
-	```java
-	Base b = new Son();
-	b.commonMtd(); /* son's method */
-	```
-
 - 同名同签名的静态方法：是什么类的变量就访问什么类的方法，是隐藏，不是重写。
-	```java
-	Base b = new Son();
-	b.staticMtd(); /* base's method */
-	```
+
+```java
+Base b = new Son();
+b.commonMtd(); /* son's method */
+```
+
+```java
+Base b = new Son();
+b.staticMtd(); /* base's method */
+```

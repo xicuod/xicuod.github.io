@@ -18,3 +18,22 @@ title: Java 包
 - `package some.package;` 相当于 C# 中的 `namespace Some.Namespace{}`。
 - `import some.package;` 相当于 C# 中的 `using Some.Namespace;`。
 - Java 一名称空间一文件 (且强制一公共类一文件)，只需在文件顶部写上包名，不需要大括号划定界限。
+
+## 包私有类
+
+一个 Java 文件中只能有一个公开类 (public class)，但可以有很多无修饰符的**包私有类** (package-private class)。包私有类只在当前内可访问。
+
+```java
+public class TheOneAndOnlyPublic {
+  public static void main(String[] args) {
+    PackagePrivate pp = new PackagePrivate();
+    pp.packageMethod();
+  }
+}
+  
+class PackagePrivate {
+  void packageMethod() {
+    System.out.println("包私有类的方法");
+  }
+}
+```

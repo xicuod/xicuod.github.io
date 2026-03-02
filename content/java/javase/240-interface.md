@@ -8,7 +8,7 @@ title: Java 接口
 
 - 接口的本质是**契约**，就像法律一样，制定好后大家都遵守。
   - 接口比 [抽象类]({{% sref "java-abstract-class-and-method" %}}) 还抽象，是专业的抽象、专业的约束 (契约)。
-  - 面向对象的精髓就是对对象的抽象，最能体现这一点的就是接口。
+  - [面向对象]({{% sref "java-oop" %}})的精髓就是对对象的抽象，最能体现这一点的就是接口。
   - 之所以[面向对象设计模式]() (OODP) 的讨论都只针对具备了抽象能力的语言 (如 C++、Java、C# 等)，就是因为设计模式所研究的实际上就是如何合理地去抽象。
 - **面向接口编程**：接口和实现分离。
 - **函数式接口**：只有一个方法的接口，可用 lambda 表达式替代并简化。
@@ -123,7 +123,7 @@ public class InterfaceImpl implements InterfaceA, InterfaceB {
 
 ## 接口的成员
 
-- Java 7：[静态常量](#接口的静态常量-java-7)、[抽象方法](#接口的抽象方法-java-7)
+- Java 7 及以前：[静态常量](#接口的静态常量-java-7)、[抽象方法](#接口的抽象方法-java-7)
 - Java 8：[默认方法](#接口的默认方法-java-8)、[静态方法](#接口的静态方法-java-8)
 - Java 9：[私有方法](#接口的私有方法-java-9)
 
@@ -328,3 +328,28 @@ public class Demo178InterfacePrivate {
 	}
 }
 ```
+
+## 函数式接口 Functional Interface
+
+函数式接口是只有一个抽象方法的接口（可以有默认方法、静态方法）。
+
+```java 
+/* 匿名内部类（lambda表达式）实现并调用函数式接口 Consumer 的 accept 方法 */
+Collection<String> coll1 = new ArrayList<>();
+coll.add("zhangsan");
+coll.add("lisi");
+coll.add("wangwu");
+
+/* coll.forEach(new Consumer<String>() {
+	@Override
+	public void accept(String s) {
+		System.out.println(s);
+	}
+}); */
+
+coll.forEach(s -> System.out.println(s));
+```
+
+> [!tip] C# 委托与 Java 函数式接口
+>
+> C# 中有专门的功能实体“[委托]()”来实现 Java 函数式接口“抽象代码块”的功能。“这里只需要一个行为，具体是谁、在哪个对象里，都不重要；只要签名对得上，就能插进来用。”

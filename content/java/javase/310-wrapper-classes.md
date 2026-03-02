@@ -19,7 +19,7 @@ title: Java 包装类
 | `char`    | `java.lang.Character` |
 | `boolean` | `java.lang.Boolean`   |
 
-## Java 装箱（以 `Integer` 类为例）
+## 装箱（以 `Integer` 类为例）
 
 构造方法装箱（过时）：Java 5 起支持[自动装拆箱]()，不再需要调用构造方法显式装箱
 
@@ -31,6 +31,23 @@ title: Java 包装类
 - `static Integer valueOf(int i)` ：返回一个装有传入整数的 `Integer` 对象，`Integer.valueOf(233)`
 - `static Integer valueOf(String s)`：返回一个装有传入字串的字面整数的 `Integer` 对象，`Integer.valueOf("666")`
 
-## Java 拆箱（以 `Integer` 类为例）
+## 拆箱（以 `Integer` 类为例）
 
 - 实例方法拆箱：`Integer` 类的实例方法 `int intValue()` 返回 `Integer` 对象对应的 `int` 整数
+
+## 自动装拆箱 (Java 5)
+
+Java 5 引入自动装拆箱，基本类型与引用类型之间传参前不需要显式装拆箱。
+
+```java
+public class ArrayListDemo {
+	public static void main(String[] args) {
+		ArrayList<Integer> nums = new ArrayList<>();
+		nums.add(514); /* 直接传入 int（JDK 5 自动装箱） */
+		int num = nums.get(0); /* 直接用 int 接收（JDK 5 自动拆箱） */
+		System.out.println(num);
+	}
+}
+```
+
+[数组]({{% sref "java-array" %}})不支持自动装拆箱，`Integer[]` 不能跟 `int[]` 隐式互转。

@@ -64,7 +64,9 @@ IO 流体系结构：
 - `void write(byte[] b, int off, int len)` 一次写一个字节数组的部分数据
   - `off` 起始索引 (相对于 0 的偏移量 `offset`)，`len` 撷取长度 `length`
 
-不同操作系统的行分隔符：
+### 换行符
+
+不同操作系统的行分隔符（换行符）：
 
 - Windows：CRLF = `\r\n` = 回车 + 换行
 - Unix、macOS：LF = `\n` = 换行
