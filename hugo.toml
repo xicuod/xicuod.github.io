@@ -13,17 +13,22 @@ disableKinds = []
   [[menus.main]]
     name = '主页'
     pageRef = '/'
-    weight = 1
+    weight = 10
+
+  [[menus.main]]
+    name = '通用技术栈'
+    pageRef = '/general/'
+    weight = 15
 
   [[menus.main]]
     name = 'Java 技术栈'
     pageRef = '/java/'
-    weight = 2
+    weight = 20
 
   [[menus.main]]
     name = '.NET 技术栈'
     pageRef = '/dotnet/'
-    weight = 3
+    weight = 30
   
   [[menus.main]]
     name = '搜索'
@@ -91,6 +96,7 @@ disableKinds = []
   [permalinks.page]
     java = '/:slug/'
     dotnet = '/:slug/'
+    general = '/:slug/'
 
 [markup.goldmark.extensions.passthrough]
 enable = true
