@@ -1,28 +1,8 @@
 ---
-weight: 30
-slug: redis-data-structures
-title: Redis 数据结构
+weight: 45
+slug: redis-string
+title: Redis String 类型
 ---
-
-Redis 的 `key` 一般的都是 `String` 类型，但是 `value` 可以是各种类型：
-
-基本类型：
-
-- `String`：字符串，`"hello world"`
-- `Hash`：哈希表，双列集合，`{name: "Jack", age: 21}`
-- `List`：列表，有序集合，`[A -> B -> C -> C]`
-- `Set`：无序集合，`{A, B, C}`
-- `SortedSet`：带排序功能的集合，`{A: 1, B: 2, C: 3}`
-
-特殊类型：
-
-- `GEO`：地理位置，`{ A: (120.3, 30.5) }`
-- `BitMap`：`0110110101110101011`
-- `HyperLog`：`0110110101110101011`
-
-以及其他更多类型。
-
-## `String` 类型及其常用命令
 
 `String` 类型就是字符串类型，是 Redis 中最简单的存储类型。字符串类型的 `value` 根据字符串格式的不同，还可以分为三类：
 
@@ -40,7 +20,11 @@ Redis 的 `key` 一般的都是 `String` 类型，但是 `value` 可以是各种
 
 不管是那种格式的字符串，底层都是**字节数组**的形式存储，只不过编码方式不同。字符串类型的最大长度不能超过 512m。
 
-`String` 类型的常见命令：当说 `Type` 类型的键值对时，指的是这个键值对的 `key` 是 `Type` 类型。
+## `String` 类型常见命令
+
+> [!note] 注
+>
+> 当说“`Type` 类型的键值对”时，指的是这个键值对的 `key` 是 `Type` 类型。
 
 - `SET`：添加或修改一个 `String` 类型的键值对
 - `GET`：根据 `key` 获取 `String` 类型的 `value`
@@ -50,6 +34,11 @@ Redis 的 `key` 一般的都是 `String` 类型，但是 `value` 可以是各种
 - `INCRBY`：让一个整数字符串类型的 `value` 自增指定步长，返回自增后的值
 - `INCRBYFLOAT`：让一个浮点数字符串类型的 `value` 自增指定步长，返回自增后的值
 - `SETNX`：如果 `key` 不存在则添加一个 `String` 类型的键值对，成功返回 1，失败返回 0
-- `SETEX`：添加或修改一个 `String` 类型的键值对并指定有效期
+- `SETEX key expire value`：添加或修改一个 `String` 类型的键值对并指定有效期
 
-如果没有说明失败返回什么值，则失败直接报错。
+上面的命令如果没有说明失败返回什么值，则失败直接报错。
+
+特别地：
+
+- `INCR` 传入负数就是自减，当然也有专门自减的 `DECR` 但是一般用 `INCR` 就行了。
+- 像 `SETNX` 和 `SETEX` 这种**组合命令**，都可以拆开来用：`SET key value NX` 和 `SET key value EX seconds`。
