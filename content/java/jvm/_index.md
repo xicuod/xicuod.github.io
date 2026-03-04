@@ -1,6 +1,7 @@
 ---
-title: Java 虚拟机 (JVM)
+weight: 30
 slug: jvm
+title: Java 虚拟机 (JVM)
 ---
 
 ## JVM 学习路线图 Roadmap

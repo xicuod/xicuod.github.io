@@ -1,7 +1,7 @@
 ---
 weight: 25
 slug: redis-quickstart
-title: Redis 快速开始
+title: Redis 快速入门
 ---
 
 ## 使用 `redis-cli`
