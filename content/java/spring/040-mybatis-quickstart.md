@@ -1,6 +1,6 @@
 ---
 weight: 40
-slug: mybatis-quickstart
+slug: java-mybatis-quickstart
 title: MyBatis 快速入门
 ---
 
