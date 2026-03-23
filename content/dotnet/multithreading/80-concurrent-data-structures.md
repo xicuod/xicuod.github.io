@@ -1,6 +1,6 @@
 ---
 weight: 80
-title: .NET多线程(8)：并发数据结构
+title: .NET 并发数据结构
 slug: dotnet-multithreading-concurrent-data-structures
 ---
 ## 并发栈 `ConcurrentStack`

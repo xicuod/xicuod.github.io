@@ -1,6 +1,6 @@
 ---
 weight: 40
-title: .NET多线程(4)：线程安全
+title: .NET 线程安全
 slug: dotnet-multithreading-safety
 ---
 ## 线程亲和性 Thread Affinity

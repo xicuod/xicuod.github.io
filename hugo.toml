@@ -11,22 +11,22 @@ disableKinds = []
 
 [menus]
   [[menus.main]]
-    name = '主页'
-    pageRef = '/'
-    weight = 10
-
-  [[menus.main]]
-    name = '通用技术栈'
+    name = '通用'
     pageRef = '/general/'
     weight = 15
 
   [[menus.main]]
-    name = 'Java 技术栈'
+    name = 'Java'
     pageRef = '/java/'
     weight = 20
 
   [[menus.main]]
-    name = '.NET 技术栈'
+    name = 'Android'
+    pageRef = '/android/'
+    weight = 25
+
+  [[menus.main]]
+    name = '.NET'
     pageRef = '/dotnet/'
     weight = 30
   
@@ -60,6 +60,9 @@ disableKinds = []
     # twitter = 'https://twitter.com/<your-twitter-username>'
     # whatsapp = 'https://wa.me/<your-whatsapp-number>'
     # youtube = 'https://www.youtube.com/@<your-youtube-username>'
+  [params.theme]
+   default = 'system'
+   displayToggle = true
   [params.navbar]
     displayTitle = true
     displayLogo = true
@@ -95,8 +98,12 @@ disableKinds = []
 [permalinks]
   [permalinks.page]
     java = '/:slug/'
+    android = '/:slug/'
     dotnet = '/:slug/'
     general = '/:slug/'
+
+[markup.highlight]
+  noClasses = false
 
 [markup.goldmark.extensions.passthrough]
 enable = true

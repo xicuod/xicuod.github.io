@@ -1,6 +1,6 @@
 ---
 weight: 20
-title: .NET多线程(2)：线程同步
+title: .NET 线程同步
 slug: dotnet-multithreading-synchronization
 ---
 - 共享资源：并发的线程竞争共享资源，造成冲突和资源争抢

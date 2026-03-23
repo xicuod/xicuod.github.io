@@ -1,6 +1,6 @@
 ---
 weight: 60
-title: .NET多线程(6)：并行循环
+title: .NET 并行循环
 slug: dotnet-multithreading-parallel-loop
 ---
 - 并行循环（parallel loop）：`Parallel.For(int 起点含, int 终点不含, Action 循环体委托)`

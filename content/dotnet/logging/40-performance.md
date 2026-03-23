@@ -1,6 +1,6 @@
 ---
 weight: 40
-title: .NET日志(4)：性能优化
+title: .NET 日志性能优化
 slug: dotnet-logging-performance
 ---
 

@@ -1,4 +1,5 @@
 ---
+weight: 20
 title: Java 技术栈
 slug: java
 cascade:

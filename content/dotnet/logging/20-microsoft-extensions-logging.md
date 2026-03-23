@@ -1,10 +1,10 @@
 ---
 weight: 20
-title: .NET日志(2)：M.E.Logging
+title: Microsoft.Extensions.Logging
 slug: dotnet-logging-microsoft-extensions-logging
 ---
 
-`ILogger` 并不是一个 BCL (Basic Class Library，基础类库) 接口，而是来自于 `Microsoft.Extensions.Logging` 包。如果你是一个类库作者，你可以引用 `Microsoft.Extensions.Logging.Abstraction` 抽象依赖，因为开发类库通常用不上这些具体实现。
+`ILogger` 并不是一个 基础类库 (BCL, Basic Class Library) 接口，而是来自于 `Microsoft.Extensions.Logging` 包。如果你是一个类库作者，你可以引用 `Microsoft.Extensions.Logging.Abstraction` 抽象依赖，因为开发类库通常用不上这些具体实现。
 
 - `LoggerFactory` 日志记录器工厂：
   - `Create` 静态方法：创建一个工厂
@@ -76,7 +76,7 @@ public class LogEvents {
 
 `Logging` 包提供主机 `IHost` 的 `ConfigureLogging` 扩展方法，接收 `ILoggingBuilder`，从而为主机配置日志服务。
 
-## 自定义 ILogger 日志记录器与 Provider 日志提供程序
+## 自定义 `ILogger` 日志记录器与 `Provider` 日志提供程序
 
 配置 `ILogger` 日志记录器：
 
@@ -111,7 +111,7 @@ builder.AddJsonConsole(options => {
 } */
 ```
 
-## 在`appsettings.json`中配置日志服务
+## 在 `appsettings.json` 中配置日志服务
 
 你不应该每次为了调整日志配置，都必须修改代码中的日志逻辑，并重新部署应用程序，而是应该将这些配置放在外部的配置文件中。
 
@@ -162,7 +162,7 @@ try {
 
 不过，这种方式更可能在你为他人开发类库时派上用场，而不是在构建微服务这类服务时，因为大多数配置实际上都会放在你的 `appsettings.json` 中。但知道你拥有灵活性，以备不时之需，总是好的。
 
-## 日志提供程序 LoggerProvider
+## 日志提供程序 `LoggerProvider`
 
 控制台是临时日志提供程序，一旦停止运行，它和它的日志缓存就不存在了，它们不是持久化的。相反，文件系统就是能够持久存储日志的提供程序。
 

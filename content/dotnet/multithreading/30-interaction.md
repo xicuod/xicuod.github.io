@@ -1,6 +1,6 @@
 ---
 weight: 30
-title: .NET多线程(3)：线程交互
+title: .NET 线程交互
 slug: dotnet-multithreading-interaction
 ---
 ## 信号量 `Semaphore`

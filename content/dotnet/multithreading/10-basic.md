@@ -1,6 +1,6 @@
 ---
 weight: 10
-title: .NET多线程(1)：多线程基础
+title: .NET 多线程基础
 slug: dotnet-multithreading-basic
 ---
 这几篇.NET多线程笔记写于2025年11月底-12月初。

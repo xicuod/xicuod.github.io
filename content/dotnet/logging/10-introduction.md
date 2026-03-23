@@ -1,6 +1,6 @@
 ---
 weight: 10
-title: .NET日志(1)：概论
+title: .NET 日志导论
 slug: dotnet-logging-introduction
 ---
 

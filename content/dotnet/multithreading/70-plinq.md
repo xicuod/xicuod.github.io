@@ -1,6 +1,6 @@
 ---
 weight: 70
-title: .NET多线程(7)：并行LINQ（PLINQ）
+title: .NET 并行 LINQ（PLINQ）
 slug: dotnet-multithreading-plinq
 ---
 - 集合的数据量非常庞大时，适合使用并行LINQ（PLINQ）

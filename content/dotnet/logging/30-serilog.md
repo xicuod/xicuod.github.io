@@ -1,6 +1,6 @@
 ---
 weight: 30
-title: .NET日志(3)：Serilog
+title: .NET Serilog
 slug: dotnet-logging-serilog
 ---
 

@@ -1,4 +1,5 @@
 ---
+weight: 10
 title: 系错的技术笔记
 ---
 
@@ -6,4 +7,5 @@ title: 系错的技术笔记
 
 - [通用技术栈笔记]({{% sref "general" %}})
 - [Java 技术栈笔记]({{% sref "java" %}})
+- [Android 技术栈笔记]({{% sref "android" %}})
 - [.NET 技术栈笔记]({{% sref "dotnet" %}})

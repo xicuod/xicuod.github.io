@@ -1,4 +1,5 @@
 ---
+weight: 10
 slug: general
 title: 通用技术栈
 cascade:

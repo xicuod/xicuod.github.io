@@ -1,7 +1,7 @@
 ---
 weight: 110
 slug: spring-data-redis
-title: SpringDataRedis
+title: Spring Data Redis
 ---
 
 Spring Data 是 Spring 中数据操作的模块，包含对各种数据库的集成，其中对 Redis 的集成模块就叫做 [SpringDataRedis](https://spring.io/projects/spring-data-redis)。
@@ -90,7 +90,9 @@ value: \xAC\xED\x00\x05\x74\x00\x05\x57\x75\x62\x61\x69
 
 ### 使用 `StringRedisTemplate`
 
-推荐使用 `StringRedisTemplate` 处理纯字符串场景。避免使用 JDK 序列化，因为它的**可读性差**、**存储体积大**、且**跨语言交互不友好**。因此，之前注入的 `RedisTemplate` 已经是“原始使用”，对于本例，最好使用专门处理 `String` 类型的 `StringRedisTemplate`。
+推荐使用 `StringRedisTemplate` 处理纯字符串场景。避免使用 JDK 序列化，因为它的**可读性差**、**存储体积大**、且**跨语言交互不友好**。因此，之前注入的 `RedisTemplate` 已经是“原始使用”，对于本例，最好使用专门处理字符串类型的 `StringRedisTemplate`。
+
+虽然 `StringRedisTemplate` 专门处理字符串类型，但是基元类型也能通过 `String.valueOf()` 轻松转换成字符串类型，而复杂的对象也能通过 JSON 序列化器和反序列化器快速与字符串互转。所以，对于较为简单的场景，用 `StringRedisTemplate` 并在平时多下点功夫，足以应对大部分情况。
 
 ```java {filename="src/test/java/ur.pkg.demo.RedisTest.java"}
 @Autowired

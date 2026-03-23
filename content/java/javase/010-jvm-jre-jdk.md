@@ -1,5 +1,6 @@
 ---
 weight: 10
+slug: java-jvm-jre-jdk
 title: JVM、JRE 和 JDK
 ---
 

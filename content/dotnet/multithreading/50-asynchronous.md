@@ -1,6 +1,6 @@
 ---
 weight: 50
-title: .NET多线程(5)：异步编程
+title: .NET 异步编程
 slug: dotnet-multithreading-asynchronous
 ---
 ## 多线程 vs. 异步编程
