@@ -9,3 +9,4 @@ title: 系错的技术笔记
 - [Java 技术栈笔记]({{% sref "java" %}})
 - [Android 技术栈笔记]({{% sref "android" %}})
 - [.NET 技术栈笔记]({{% sref "dotnet" %}})
+- [Linux 技术栈笔记]({{% sref "linux" %}})

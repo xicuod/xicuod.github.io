@@ -13,6 +13,11 @@ disableKinds = []
   [[menus.main]]
     name = '通用'
     pageRef = '/general/'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Linux'
+    pageRef = '/linux/'
     weight = 15
 
   [[menus.main]]
@@ -29,7 +34,7 @@ disableKinds = []
     name = '.NET'
     pageRef = '/dotnet/'
     weight = 30
-  
+   
   [[menus.main]]
     name = '搜索'
     weight = 9_999
@@ -101,6 +106,7 @@ disableKinds = []
     android = '/:slug/'
     dotnet = '/:slug/'
     general = '/:slug/'
+    linux = '/:slug/'
 
 [markup.highlight]
   noClasses = false

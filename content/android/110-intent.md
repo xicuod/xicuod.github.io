@@ -1,7 +1,7 @@
 ---
 weight: 110
 slug: android-intent
-title: 意图 Intent
+title: Android 意图
 ---
 
 意图（intent）是各个组件之间沟通的桥梁，用于标明通信从哪来、到哪去和怎么走，以及发送方与接收方之间互相的数据传递。意图分为显式意图和隐式意图。
