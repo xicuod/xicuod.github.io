@@ -51,9 +51,9 @@ title: Android 基本视图
 
 `TextView` 是文本视图，在 XML 布局文件中配置它的属性：
 
-- 文本内容：`android:text`
-- 文本大小：`android:textSize`（字号单位 `px`, `dp`, `sp`）
-- 文本颜色：`android:textColor`
+- 文本内容：`text`
+- 文本大小：`textSize`（字号单位 `px`, `dp`, `sp`）
+- 文本颜色：`textColor`
 
 > [!tip] 从代码设置属性
 >
@@ -77,9 +77,9 @@ public static int dip2px(Context context, float dip) {
 
 ## 基本视图属性
 
-- 视图宽高：`android:layout_width` 和 `android:layout_height`，取值 `match_parent` 匹配父视图、`wrap_content` 包裹自身内容、具体数值和单位
-- 视图间距：`android:layout_margin` 外边距、`android:padding` 内边距（上下左右都有单独属性）
-- 视图对齐方式：`android:layout_gravity` 自己在父视图中的对齐方式、`android:gravity` 子视图在自己中的对齐方法，取值上下左右中间，可以用管道符 `|` 组合两个轴的方位使用
+- 视图宽高：`layout_width` 和 `layout_height`，取值 `match_parent` 匹配父视图、`wrap_content` 包裹自身内容、具体数值和单位
+- 视图间距：`layout_margin` 外边距、`padding` 内边距（上下左右都有单独属性）
+- 视图对齐方式：`layout_gravity` 自己在父视图中的对齐方式、`gravity` 子视图在自己中的对齐方法，取值上下左右中间，可以用管道符 `|` 组合两个轴的方位使用
 
 ## 常用布局视图
 
@@ -89,8 +89,8 @@ public static int dip2px(Context context, float dip) {
 
 线性布局的子视图按一条线排列。
 
-- `android:orientation` 子视图排列方式，取值 `horizontal` 水平排列、`vertical` 垂直排列，默认水平排列
-- `android:layout_weight` 自己在父视图所占地方的权重（自己的权重值占总权重值的比值），如果设置宽或高为 `0dp`，则就按权重来算宽或高
+- `orientation` 子视图排列方式，取值 `horizontal` 水平排列、`vertical` 垂直排列，默认水平排列
+- `layout_weight` 自己在父视图所占地方的权重（自己的权重值占总权重值的比值），如果设置宽或高为 `0dp`，则就按权重来算宽或高
 
 ### 相对布局 `RelativeLayout`
 
@@ -134,31 +134,45 @@ public static int dip2px(Context context, float dip) {
 
 ### 按钮控件 `Button`
 
-`Button` 由 `TextView` 派生而来，相较于父类的特点有：有默认背景填充，文本默认居中，默认把英文转为全大写。`Button` 新增的属性：
+`Button` 继承自 `TextView`，相较于父类的特点有：有默认背景填充，文本默认居中，默认把英文转为全大写。
+
+`Button` 新增的属性：
 
 - `textAllCaps` 属性：是否把英文转为全大写
 - `onClick` 属性：指定点击事件的事件处理器，也就是一个方法
+- 可以在 `Button` 的文本上下左右添加图片，只要指定 `drawableTop`、`drawableLeft`、`drawableStart` 等属性，`drawablePadding` 指定文本和图片的间距。然而，如果图片过大，`Button` 也并没有调整这些图片尺寸的 XML 属性。
 
-在代码中通过事件监听器 `Listener` 监听控件的交互事件：
+在代码中通过事件监听器 `Listener` 监听 `Button` 的交互事件：
 
-- 点击事件：`setOnClickListener()` 按住低于 500 毫秒触发
-- 长按事件：`setOnLongClickListen()` 按住超过 500 毫秒触发
-- 禁用与恢复按钮：`android:enabled`，禁用时为灰色或不醒目状态
+- 点击事件：`setOnClickListener()` 按住低于 500 毫秒时触发
+- 长按事件：`setOnLongClickListen()` 按住超过 500 毫秒时触发
+- 禁用与恢复按钮：`enabled`，禁用时为灰色或不醒目状态
 
 ### 图片视图控件 `ImageView`
 
-- `android:src` 源文件，图片路径
-- `android:scaleType` 缩放类型
+- `src` 源文件，图片路径
+- `scaleType` 缩放类型
 
-`ImageView` 默认的缩放方式是等比缩放使得能在容器中正好放下，并居中放置。
+`ImageView` 默认的缩放方式就是等比缩放使得能在容器中正好放下，并居中放置，即 `FIT_CENTER`。
 
 | XML 缩放类型   | `ScaleType` 常量 | 说明                                                     |
 | -------------- | ---------------- | -------------------------------------------------------- |
-| `fitXY`        | `FIT_XY`         | 拉伸到填满视图（图片可能被拉伸变形）                     |
+| `fitXY`        | `FIT_XY`         | 拉伸到填满视图（图片可能被拉变形）                       |
 | `fitStart`     | `FIT_START`      | 等比缩放到恰好放下，放到视图上侧或左侧                   |
 | `fitCenter`    | `FIT_CENTER`     | 等比缩放到恰好放下，居中放置                             |
 | `fitEnd`       | `FIT_END`        | 等比缩放到恰好放下，放到视图下侧或右侧                   |
 | `center`       | `CENTER`         | 保持原尺寸，居中放置                                     |
-| `centerCrop`   | `CENTER_CROP`    | 拉伸使其充满视图，居中放置                               |
+| `centerCrop`   | `CENTER_CROP`    | 等比缩放到填满视图，居中放置（超出视图范围的将被裁切）   |
 | `centerInside` | `CENTER_INSIDE`  | 放得下时保持原尺寸，放不下时等比缩小到恰好放下，居中放置 |
 
+### 图片按钮控件 `ImageButton`
+
+`ImageButton` 继承自 `ImageView` 而非 `Button`，它与父类 `ImageView` 的区别在于：它没有默认的按钮背景，它的默认缩放类型是 `center`，`ImageView` 的默认缩放类型是 `fitCenter`。
+
+`ImageButton` 与 `Button` 的区别在于：
+
+- `ImageButton` 只能放图片不能放文本，而 `Button` 两个都能放。
+- `ImageButton` 的图片是默认等比缩放的，且能通过 `scaleType` 更改，而 `Button` 的背景图片只能拉伸变形，没有 `scaleType`。
+- `ImageButton` 能在背景和前景（`src`）各放一张图片，而 `Button` 能在背景和文本的上下左右各放一张。
+
+如果你需要一个纯图标且对图标缩放比例有严格要求的按钮，用 `ImageButton`；如果你需要文字+图标，或者单纯的文字按钮，用 `Button`。

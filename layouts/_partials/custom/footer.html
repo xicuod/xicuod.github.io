@@ -1,0 +1,19 @@
+{{- $context := .context -}}
+{{- if $context.IsHome -}}
+{{- $postCount := 0 -}}
+{{- $totalWords := 0 -}}
+{{- range where $context.Site.RegularPages "Section" "in" (slice "android" "dotnet" "general" "java" "linux") -}}
+{{- $postCount = add $postCount 1 -}}
+{{- $totalWords = add $totalWords .WordCount -}}
+{{- end -}}
+{{- $wordsDisplay := "" -}}
+{{- if ge $totalWords 10000 -}}
+{{- $wordsDisplay = printf "%.2f 万" (div $totalWords 10000.0) -}}
+{{- else -}}
+{{- $wordsDisplay = printf "%d " $totalWords -}}
+{{- end -}}
+<div class="hx:flex hx:flex-wrap hx:items-center hx:justify-center hx:gap-4 hx:text-sm hx:py-2">
+  <span>{{ $postCount }} 篇文章</span>
+  <span>{{ $wordsDisplay }}字</span>
+</div>
+{{- end -}}

@@ -4,7 +4,7 @@ slug: linux-command-basics
 title: Linux 命令基础
 ---
 
-Linux 命令的通用格式：`command [-options] parameters`，`命令 [-选项] 参数`
+Linux 命令的通用格式：`command [-options] parameters`，`命令 [-选项] 参数`（中括号里面的是可选项，可写可不写）
 
 ## Linux 目录命令
 

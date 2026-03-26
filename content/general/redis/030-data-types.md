@@ -1,7 +1,7 @@
 ---
 weight: 30
-slug: redis-data-structures
-title: Redis 数据结构
+slug: redis-data-types
+title: Redis 数据类型
 ---
 
 Redis 的 `key` 一般的都是 `String` 类型，但是 `value` 可以是各种类型：
@@ -20,7 +20,7 @@ Redis 的 `key` 一般的都是 `String` 类型，但是 `value` 可以是各种
 - `BitMap`：`0110110101110101011`
 - `HyperLog`：`0110110101110101011`
 
-以及其他更多类型。
+以及其他更多类型，如 [`Stream` 类型]({{% sref "redis-message-queue#基于-stream-的消息队列" %}})。
 
 > [!tip] `redis-cli` 查看数据结构相关命令的帮助文档
 >
