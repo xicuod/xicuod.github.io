@@ -8,26 +8,26 @@ Redis 的 `SortedSet` 是一个可排序的 `set` 集合，与 Java 的 [`TreeSe
 
 `SortedSet` 的元素都带有一个 `score` 属性，可以基于 `score` 属性对元素排序，底层实现是一个跳表 (`SkipList`) 加上一个 `hash` 表。
 
-- 可排序
+- 可排序，根据 `score` 排序
 - 元素不重复
-- 查询快
+- 底层是哈希结构，可以按元素查找，查询快
 
 ## `SortedSet` 类型的常见命令
 
 - `ZADD key score member [score member ...]`：向 sorted set 中添加一个或多个元素，如果元素已经存在则更新其 `score` 值
+  - `ZADD` 命令是 `score` 在前，`member` 在后，注意不要弄反了。
 - `ZREM key member [member ...]`：移除 sorted set 中的一个或多个指定元素
 - `ZSCORE key member`：获取 sorted set 中指定元素的 `score` 值
-- `ZRANK key member`：获取 sorted set 中指定元素的排名（按 `score` 从小到大排序）
+- `ZRANK key member`：获取 sorted set 中指定元素的排名（按 `score` 从小到大升序排序）
+  - `ZRANK` 的排名是从 0 开始的。
 - `ZCARD key`：获取 sorted set 中的元素个数
 - `ZCOUNT key min max`：统计 `score` 值在给定范围内的所有元素的个数
 - `ZINCRBY key increment member`：为 sorted set 中指定元素的 `score` 值增加指定的步长（`increment`）
-- `ZRANGE key start stop [WITHSCORES]`：按照 `score` 从小到大排序后，获取指定排名范围内的元素
-- `ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]`：按照 `score` 从小到大排序后，获取指定 `score` 范围内的元素
+- `ZRANGE key start stop [WITHSCORES]`：按照 `score` 升序排序后，获取指定排名范围内（含）的元素
+- `ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]`：按照 `score` 升序排序后，获取指定 `score` 范围内（含）的元素
 - `ZDIFF`：求多个 sorted set 的差集
 - `ZINTER`：求多个 sorted set 的交集
 - `ZUNION`：求多个 sorted set 的并集
-
-`ZADD` 命令是 `score` 在前，`member` 在后，注意不要弄反了。`ZRANK` 的排名是从 0 开始的。
 
 以上命令默认都是升序排列，如果要降序排列，则要在命令的 `Z` 后加 `REV`，如 `ZREVRANGE`。
 

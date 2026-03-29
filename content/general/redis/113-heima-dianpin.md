@@ -384,6 +384,208 @@ public Result seckillVoucher(Long voucherId) {
 
 要解决这两个问题，最佳的方案就是用[消息队列]({{% sref "redis-message-queue" %}})来代替 JDK 阻塞队列。
 
+## 达人探店的实现
+
+- 发布探店笔记：`saveBlog()` 数据库写入
+- 查看探店笔记：`queryBlogById()` 数据库查询
+- 点赞功能：`likeBlog()` 数据库写入 + Redis 旁路缓存（使用 ZSet）
+- 最近点赞列表：`queryBlogLikes()` Redis ZSet `ZRANGE` 命令 + 数据库 `ORDER BY FEILD()` 语句保序
+- 博文关联查询：`includeBlogUser()` 查询发布博文的用户、`includeBlogIsLike()` 查询博文是否被当前用户点赞
+
+## 好友关注的实现
+
+- 关注取关：`follow()` 数据库写入 + Redis 旁路缓存 (使用 Set)
+- 是否关注：`isFollow()` 数据库 `COUNT(*)` 查询
+- 共同关注：`queryFollowCommons()` Redis `SINTER` 命令求交集
+- 关注推送：feed 投喂模式提供沉浸式的信息流体验，无限下拉刷新获取新的信息，且可以根据用户的喜好个性化推荐用户可能感兴趣的内容。
+
+### Feed 流模式
+
+Feed 流产品有两种场景模式，Timeline 时间线模式和智能排序模式。
+
+- Timeline：不做内容筛选，简单地按发布时间排序，一般用于好友和关注的信息流，如微信朋友圈。优点是信息全面，没有缺失，实现简单；缺点是信息噪音多，用户不一定感兴趣，内容获取效率低。
+- 智能排序：利用智能算法屏蔽违规的、用户不感兴趣的内容。推送用户感兴趣的内容来吸引用户。优点是用户粘性高，容易沉迷；缺点是如果算法不精准，可能起到反作用。
+
+Timeline 模式有三种实现方案：拉模式、推模式和推拉结合模式。
+
+- 拉模式：读扩散，给每个发布者准备一个发件箱，给每条消息注明时间戳，给关注者准备一个收件箱，平时是空的，只有关注者查看时才会拉取消息，拉过来按时间排序即可。
+  - 优点：节省空间，收件箱一般不存消息，只在拉取时放入消息。
+  - 缺点：每次读取收件箱时都要重新拉取所有发件箱的消息，然后还要排序，一旦数据规模增大，耗时将显著增加。
+- 推模式：写扩散，没有发件箱，发布者发布消息时，向所有关注者的收件箱放入消息，并同时将消息排序。
+  - 优点：关注者可以直接拿到现成的排序的消息列表。
+  - 缺点：性能很差，内存占用大，如果一个发布者的粉丝很多，一个消息可能要写成千上万次。
+- 推拉结合模式：读写混合，兼具推和拉两种模式的优点。对于普通人发布者，采用推模式；对于大 V 的普通粉丝，采用拉模式；对于大 V 的活跃粉丝，采用推模式。
+  - 优点：兼顾不同人群的使用习惯，同时保证性能最优。
+  - 缺点：实现复杂。
+
+拉模式很少使用，推模式适合用户量少、没有大 V 的平台，推拉结合模式适合过千万用户量、有大 V 的平台。
+
+黑马点评采用 Timeline 的推模式实现 Feed 流关注推送。
+
+#### Feed 流的分页问题
+
+Feed 流中的数据在不断更新，时间线中数据的角标也在不断更新，因此不能采用依赖角标查询的传统的分页模式。你读了第 1 页，拿到了 id 从 10 到 6 的消息，还未读第 2 页时，我就发布了一个新 feed，放在了时间线的顶端，id 为 11，这时你再读第 2 页，读到的就是 6 到 2 的消息了，而不是你预想中的 5 到 1。
+
+要解决不断变化的 Feed 流的分页问题，需要采取依赖 id 查询的滚动分页的模式。记录每次查询时的最后一条消息，下次查询的时候从这条下面开始查。因为 id 是有序的，所以按 id 查也是可以分页查询的。Redis 中的 ZSet 恰好有一个 score 值可以用来当作 id，且有 `ZREVRANGEBYSCORE` 命令通过 score 降序查询一组连续的数据，可以实现时间降序的滚动分页。而 Redis 的 List 就不行，它是单列集合，没有额外的用于滚动查询的列。
+
+假设每页 3 条消息，使用 `ZREVRANGEBYSCORE` 第一次查：把 `max` 最大 score 设置为当前时间戳，即最大值，从最新的一条开始查
+
+```
+ZREVRANGEBYSCORE feed:<userId> <currentTimestamp> 0 WITHSCORES LIMIT 0 3
+```
+
+```
+1) "feed6"
+2) 1774688350321
+3) "feed5"
+4) 1774688319123
+5) "feed4"
+6) 1774687177425
+```
+
+第二次查：`LIMIT` 的 offset 偏移量设置为 1，是指剔除 1774687177425 这个 lastId 的消息
+
+```
+ZREVRANGEBYSCORE feed:<userId> 1774687177425 0 WITHSCORES LIMIT 1 3
+```
+
+```
+1) "feed3"
+2) 1774686123456
+3) "feed2"
+4) 1774685123456
+5) "feed1"
+6) 1774684123456
+```
+
+但是这样有一个问题，当两个消息同时发布时，它们的时间戳 score 值是一样的，那么第二次查询时只能跳过一个消息，而另一个消息会被重复查询。因此，需要用 offset 跳过第一次查询时所有 score 等于 lastId 的元素。
+
+#### 总结：滚动分页查询的参数
+
+- `max` 最大时间戳：当前时间戳；上一次查询的最小时间戳
+- `min` 最小时间戳：0
+- `offset` 跳过的消息个数：0；上一次查询中所有 score 为 lastId 的元素个数
+- `count` 每页的消息个数：指定值
+
+```java
+@Override
+public Result queryBlogOfFollow(Long max, Integer offset) {
+    Long userId = UserHolder.getUser().getId();
+    String key = FEED_KEY + userId;
+    long min = 0L;
+    //从当前用户收件箱中取feed
+    //zrevrangebyscore key max min withscores limit offset count
+    Set<ZSetOperations.TypedTuple<String>> tuples = stringRedisTemplate.opsForZSet()
+            .reverseRangeByScoreWithScores(key, min, max, offset, FEED_PAGE_SIZE);
+    if (tuples == null || tuples.isEmpty()) return Result.ok();
+    List<Long> ids = new ArrayList<>(tuples.size());
+    int count = 0;
+    for (ZSetOperations.TypedTuple<String> tuple : tuples) {
+        String value = tuple.getValue();
+        if (value == null) continue;
+        ids.add(Long.valueOf(value));
+        Double _score = tuple.getScore();
+        if (_score == null) continue;
+        long score = _score.longValue();
+        //对相等score计数，每有不等就重置计数，因此最后一定是lastId的计数
+        if (min == score) {
+            ++count;
+        } else {
+            min = score;
+            count = 1;
+        }
+    }
+    // 跨页追踪计数
+    // 为防止相等id过多导致跨页，还要看max跟min是否相等，如果相等还要把上一轮的offset累加上去
+    if (max == min) count += offset;
+    //用order by field()从数据库保序查询
+    String idsStr = StrUtil.join(",", ids);
+    List<Blog> blogs = lambdaQuery().in(Blog::getId, ids)
+            .last("order by field(id," + idsStr + ")").list()
+            /*用stream流的peek()关联查询每个blog*/
+            .stream().peek(blog -> {
+                includeBlogUser(blog);
+                includeBlogIsLike(blog);
+            }).collect(Collectors.toList());
+    //封装为ScrollResult并返回
+    ScrollResult result = new ScrollResult();
+    result.setList(blogs);
+    result.setOffset(count);
+    result.setMinTime(min);
+    return Result.ok(result);
+}
+```
+
+> [!warning] 跨页追踪
+>
+> 为防止相等 id 过多导致跨页，还要看 max 跟 min 是否相等，如果相等还要把上一轮的 offset 累加上去。
+
+## 附近店铺的实现
+
+通过 Redis Geo 类型处理地理位置信息，获取同类型的店铺到用户的直线距离并据此排序。
+
+首先预热 Redis 每种类型店铺的 Geo 记录：
+
+```java
+@Test
+void loadShopData() {
+    Map<Long, List<Shop>> typeShops = shopService.list().stream().collect(Collectors.groupingBy(Shop::getTypeId));
+    typeShops.forEach((typeId, shops) -> {
+        String key = SHOP_GEO_KEY + typeId;
+        List<RedisGeoCommands.GeoLocation<String>> locations = shops.stream()
+                .map(shop -> new RedisGeoCommands.GeoLocation<>(
+                        shop.getId().toString(),
+                        new Point(shop.getX(), shop.getY())
+                )).collect(Collectors.toList());
+        stringRedisTemplate.opsForGeo().add(key, locations);
+    });
+}
+```
+
+然后实现 `queryShopByType()` 查询接口即可：
+
+```java
+@Override
+public Result queryShopByType(Integer typeId, Integer current, Double x, Double y) {
+    if (x == null || y == null) {
+        // 根据类型分页查询
+        Page<Shop> page = lambdaQuery()
+                .eq(Shop::getTypeId, typeId)
+                .page(new Page<>(current, DEFAULT_PAGE_SIZE));
+        return Result.ok(page.getRecords());
+    }
+
+    String key = SHOP_GEO_KEY + typeId;
+    int back = (current - 1) * DEFAULT_PAGE_SIZE;
+    int front = current * DEFAULT_PAGE_SIZE;
+    //GEOSEARCH typeGeoKey BYLONLAT x y BYRADIUS 5000 m WITHDIST COUNT front
+    GeoResults<RedisGeoCommands.GeoLocation<String>> results = stringRedisTemplate.opsForGeo().search(
+            key, GeoReference.fromCoordinate(x, y),
+            new Distance(5000), //默认单位是米
+            RedisGeoCommands.GeoSearchCommandArgs.newGeoSearchArgs().includeDistance().limit(front)
+    );
+    if (results == null) return Result.ok(Collections.emptyList());
+    List<GeoResult<RedisGeoCommands.GeoLocation<String>>> geos = results.getContent();
+    //校验current，如果当前页没有记录，那么直接返回空集合
+    if (geos.size() <= back) return Result.ok(Collections.emptyList());
+    List<Long> ids = new ArrayList<>(geos.size());
+    Map<Long, Distance> idDistances = new HashMap<>(geos.size());
+    geos.stream().skip(back).forEach(geo -> {
+        Long id = Long.valueOf(geo.getContent().getName());
+        Distance distance = geo.getDistance();
+        ids.add(id);
+        idDistances.put(id, distance);
+    });
+    //用id查shop，保序
+    List<Shop> shops = lambdaQuery().in(Shop::getId, ids)
+            .last("order by field(id," + StrUtil.join(",", ids) + ")").list();
+    //include distance
+    shops = shops.stream().peek(shop -> shop.setDistance(idDistances.get(shop.getId()).getValue()))
+            .collect(Collectors.toList());
+    return Result.ok(shops);
+}
+```
+
 ## CORS 跨域问题
 
 现象：前端请求后端接口时，后端 `request.getHeader("authorization")` 始终返回 `null`，导致 401 未登录。

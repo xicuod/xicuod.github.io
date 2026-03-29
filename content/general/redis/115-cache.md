@@ -187,12 +187,11 @@ public Result queryWithMutex(Long id) {
 ```java
 public Result queryWithLogicalExpire(Long id) {
    String key = CACHE_SHOP_KEY + id;
-   String redisDataJson = stringRedisTemplate.opsForValue().get(key);
-   String notFoundMsg = "Shop with such id not found in cache.";
    String lockKey = LOCK_SHOP_KEY + id;
    long sleepMillis = 200;
    long expireSeconds = 20;
    //查redis
+   String redisDataJson = stringRedisTemplate.opsForValue().get(key);
    if (StrUtil.isBlank(redisDataJson)) { /*redis没有，为简化问题，这里不做主动更新*/
       return Result.fail(notFoundMsg);
    }
@@ -203,7 +202,7 @@ public Result queryWithLogicalExpire(Long id) {
    if (expireTime.isAfter(LocalDateTime.now())) { /*未过期，返回*/
       return Result.ok(shop);
    }
-   /*已过期，重建缓存*/
+   /*命中但已过期，异步重建缓存*/
    boolean locked = tryLock(lockKey); /*先获取互斥锁*/
    if (locked) {
       /*拿到锁，先二次检查缓存是否过期*/
@@ -232,6 +231,10 @@ public Result queryWithLogicalExpire(Long id) {
 }
 ```
 
+> [!note] 为什么拿到锁后要做双重检查 (double check)？
+>
+> 尽管这是一个非阻塞分布式锁，但是在高并发场景下，持锁线程释放锁的那个瞬间，也有许多线程恰好拿到了过期的缓存并刚要准备 `tryLock()`，它们中的一个会拿到锁，几乎是前后脚的功夫再次尝试重建缓存。又由于逻辑过期方案是异步地查询数据库，线程拿到锁之后几乎立刻就释放了，导致如果一直高并发，这个过程就会一直极快速地重复下去，直到第一次缓存重建完毕。导致每次缓存一过期，短时间内数据库的压力就飙升。
+
 ## 缓存工具类
 
 从上面的代码可以看出，要实现高可靠、高性能的缓存系统十分复杂，为了简化代码，考虑基于 `StringRedisTemplate` 封装一个缓存工具类，包含以下方法：
@@ -242,9 +245,12 @@ public Result queryWithLogicalExpire(Long id) {
 - 方法 4：根据指定的 `key` 查询缓存，并反序列化为指定类型，需要利用逻辑过期解决**缓存击穿**问题
 
 ```java
+@Slf4j
 @Component
 public class CacheClient {
     private final StringRedisTemplate stringRedisTemplate;
+
+    private static final String rebuildCacheErrMsg = "缓存重建失败";
 
     public CacheClient(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
@@ -261,6 +267,7 @@ public class CacheClient {
         stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(redisData));
     }
 
+    // 缓存空值解决缓存穿透
     public <E, ID> E queryWithPassthrough(
             String keyPrefix, ID id, Class<E> type,
             Function<ID, E> dbFallback,
@@ -287,6 +294,7 @@ public class CacheClient {
         return entity;
     }
 
+    // 1 互斥锁解决缓存击穿
     public <E, ID> E queryWithMutex(
             String keyPrefix, String lockKeyPrefix, ID id, Class<E> type,
             Function<ID, E> dbFallback,
@@ -299,19 +307,19 @@ public class CacheClient {
         }
         /*先获取互斥锁*/
         String lockKey = lockKeyPrefix + id;
-        int maxRetries = 3;
         int retryCount = 0;
+        int maxRetries = 3;
         long sleepMillis = 50;
         while (retryCount < maxRetries) {
             try {
                 boolean locked = tryLock(lockKey);
                 if (!locked) { /*获取锁失败，休眠重试*/
-                    retryCount++;
+                    ++retryCount;
                     Thread.sleep(sleepMillis);
                     continue;
                 }
 
-                /*获取锁成功，先二次检查缓存是否重建*/
+                /*获取锁成功，先检查缓存是否已经重建*/
                 json = stringRedisTemplate.opsForValue().get(key);
                 if (StrUtil.isNotBlank(json)) { /*缓存已经重建，直接返回*/
                     return JSONUtil.toBean(json, type);
@@ -334,44 +342,93 @@ public class CacheClient {
 
     private static final ExecutorService CACHE_REBUILD_EXECUTOR = Executors.newFixedThreadPool(10);
 
+    // 2 逻辑过期解决缓存击穿
     public <E, ID> E queryWithLogicalExpire(
             String keyPrefix, String lockKeyPrefix, ID id, Class<E> type,
             Function<ID, E> dbFallback,
             Long logicalExpire, TimeUnit timeUnit) {
         String key = keyPrefix + id;
         String lockKey = lockKeyPrefix + id;
-        String redisDataJson = stringRedisTemplate.opsForValue().get(key);
-        //查redis
-        if (StrUtil.isBlank(redisDataJson)) { /*redis没有，直接返回null*/
-            return null; /*为简化问题，这里不做主动更新*/
-        }
-        //命中，判断是否逻辑过期
-        RedisData redisData = JSONUtil.toBean(redisDataJson, RedisData.class);
-        E entity = JSONUtil.toBean((JSONObject) redisData.getData(), type);
-        LocalDateTime expireTime = redisData.getExpireTime();
-        if (expireTime.isAfter(LocalDateTime.now())) { /*未过期，返回*/
-            return entity;
-        }
-        /*已过期，重建缓存*/
-        boolean locked = tryLock(lockKey); /*先获取互斥锁*/
-        if (locked) {
-            /*拿到锁，先二次检查缓存是否过期*/
-            redisDataJson = stringRedisTemplate.opsForValue().get(key);
+        RedisData redisData;
+        E entity;
+        LocalDateTime expireTime;
+        int retryCount = 0;
+        int maxRetries = 3;
+        long sleepMillis = 50;
+        while (retryCount < maxRetries) {
+            //查redis
+            String redisDataJson = stringRedisTemplate.opsForValue().get(key);
+            /*未命中，同步预热缓存*/
+            if (StrUtil.isBlank(redisDataJson)) {
+                boolean locked = tryLock(lockKey);
+                if (locked) {
+                    redisDataJson = stringRedisTemplate.opsForValue().get(key);
+                    if (redisDataJson != null) { /*先检查缓存是否已经预热*/
+                        redisData = JSONUtil.toBean(redisDataJson, RedisData.class);
+                        entity = JSONUtil.toBean((JSONObject) redisData.getData(), type);
+                        /*再检查缓存是否过期*/
+                        expireTime = redisData.getExpireTime();
+                        if (expireTime.isAfter(LocalDateTime.now())) {
+                            return entity; /*未过期，直接返回*/
+                        }
+                    }
+                    /*缓存未预热或已过期，重建缓存*/
+                    try {
+                        entity = dbFallback.apply(id);
+                        if (entity == null) return null;
+                        this.setWithLogicalExpire(key, entity, logicalExpire, timeUnit);
+                        return entity;
+                    } finally {
+                        unlock(lockKey);
+                    }
+                }
+                /*拿不到锁，缓存还在预热，休眠并重试*/
+                try {
+                    ++retryCount;
+                    Thread.sleep(sleepMillis);
+                    continue;
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return null;
+                }
+            }
+            //命中，判断是否逻辑过期
             redisData = JSONUtil.toBean(redisDataJson, RedisData.class);
             entity = JSONUtil.toBean((JSONObject) redisData.getData(), type);
             expireTime = redisData.getExpireTime();
-            if (expireTime.isAfter(LocalDateTime.now())) { /*未过期，直接返回*/
+            if (expireTime.isAfter(LocalDateTime.now())) { /*未过期，返回*/
                 return entity;
             }
-            /*新建线程重建缓存，释放锁，并返回旧数据*/
-            CACHE_REBUILD_EXECUTOR.submit(() -> {
-                this.setWithLogicalExpire(key, dbFallback.apply(id), logicalExpire, timeUnit);
-                /*重建完成，这之后的请求才会拿到新数据*/
-                unlock(lockKey);
-            });
+            /*命中但已过期，异步重建缓存*/
+            boolean locked = tryLock(lockKey); /*先获取互斥锁*/
+            /*拿到锁，先检查缓存是否已经重建*/
+            if (locked) {
+                redisDataJson = stringRedisTemplate.opsForValue().get(key);
+                redisData = JSONUtil.toBean(redisDataJson, RedisData.class);
+                entity = JSONUtil.toBean((JSONObject) redisData.getData(), type);
+                expireTime = redisData.getExpireTime();
+                if (expireTime.isAfter(LocalDateTime.now())) {
+                    /*未过期，直接释放锁并返回数据*/
+                    unlock(lockKey);
+                    return entity;
+                }
+                /*新建线程重建缓存，然后释放锁*/
+                CACHE_REBUILD_EXECUTOR.submit(() -> {
+                    try {
+                        this.setWithLogicalExpire(key, dbFallback.apply(id), logicalExpire, timeUnit);
+                        /*重建完成，这之后的请求才会拿到新数据*/
+                    } catch (Exception e) {
+                        log.error(rebuildCacheErrMsg, e);
+                    } finally {
+                        unlock(lockKey);
+                    }
+                });
+            }
+            /*命中但拿不到锁或缓存已过期，直接返回旧数据*/
+            return entity;
         }
-        /*拿不到锁，直接返回旧数据*/
-        return entity;
+        /*预热时，重试还不行，只能返回null*/
+        return null;
     }
 
     private boolean tryLock(String key) {
