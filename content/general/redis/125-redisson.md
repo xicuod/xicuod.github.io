@@ -1,7 +1,7 @@
 ---
 weight: 125
 slug: redis-redisson
-title: Redisson
+title: Redisson 分布式锁
 ---
 
 [Redisson](https://redisson.pro/docs/) 是一个在 Redis 的基础上实现的 java 驻内存数据网格 (In-Memory Data Grid)。它不仅提供了一系列的分布式的 java 常用对象，还提供了许多分布式服务，其中就包含了各种分布式锁的实现。

@@ -522,7 +522,7 @@ public Result queryBlogOfFollow(Long max, Integer offset) {
 
 ## 附近店铺的实现
 
-通过 Redis Geo 类型处理地理位置信息，获取同类型的店铺到用户的直线距离并据此排序。
+通过 [Redis Geo 类型]({{% sref "redis-geo" %}})处理地理位置信息，获取同类型的店铺到用户的直线距离并据此排序。
 
 首先预热 Redis 每种类型店铺的 Geo 记录：
 
@@ -568,21 +568,112 @@ public Result queryShopByType(Integer typeId, Integer current, Double x, Double 
     List<GeoResult<RedisGeoCommands.GeoLocation<String>>> geos = results.getContent();
     //校验current，如果当前页没有记录，那么直接返回空集合
     if (geos.size() <= back) return Result.ok(Collections.emptyList());
-    List<Long> ids = new ArrayList<>(geos.size());
-    Map<Long, Distance> idDistances = new HashMap<>(geos.size());
+    Map<Long, Double> idDistances = new LinkedHashMap<>(geos.size());
     geos.stream().skip(back).forEach(geo -> {
         Long id = Long.valueOf(geo.getContent().getName());
-        Distance distance = geo.getDistance();
-        ids.add(id);
+        double distance = geo.getDistance().getValue();
         idDistances.put(id, distance);
     });
-    //用id查shop，保序
-    List<Shop> shops = lambdaQuery().in(Shop::getId, ids)
-            .last("order by field(id," + StrUtil.join(",", ids) + ")").list();
+    //用id查shop，并保序
+    String ids = StrUtil.join(",", idDistances.keySet());
+    List<Shop> shops = lambdaQuery().in(Shop::getId, idDistances.keySet())
+            .last("order by field(id," + ids + ")").list();
     //include distance
-    shops = shops.stream().peek(shop -> shop.setDistance(idDistances.get(shop.getId()).getValue()))
+    shops = shops.stream().peek(shop -> shop.setDistance(idDistances.get(shop.getId())))
             .collect(Collectors.toList());
     return Result.ok(shops);
+}
+```
+
+这段代码的保序链路：Redis `GEOSEARCH` 按距离排好了序，`LinkedHashMap` 锁定了这个顺序，`ORDER BY FIELD` 将这个顺序传递给了数据库。
+
+> [!note] 能用一个集合做的事不用两个集合来做 + 生产后面代码直接能用的产物
+>
+> 一开始的逻辑是用 `ArrayList<Long> ids` 和 `HashMap<String, Distance> idDistances` 来做，但是这样两个集合内存占用太大，而且后面的代码还不能直接用里面的 `id` 和 `distance` 元素，必须经过二次加工才能用。于是想到有序的 `LinkedHashMap<Long, Double> idDistances`，把 `id` 和 `distance` 一步到位处理成 `Long` 和 `Double`，要 `ids` 就用 `idDistances.keySet()`，把两个集合合并成一个集合，同时还保证顺序。
+
+## 用户签到的实现
+
+假如用一张表来存储用户签到信息，那么一条签到记录就有主键、用户 id、年、月、日和是否补签这些信息。如果有 1000 万用户，平均每人每年签到 10 次，那么一年就要存 1 亿条这样的签到记录。这将造成巨大的存储占用，且对数据库的压力很大。
+
+通过 Redis BitMap 类型模拟一张签到卡，按月来统计签到信息，签到为 1，未签为 0。给每个用户每个月一个 key，把他这个月的签到情况存到 BitMap 中。这样一个月的签到记录最多只需要 31 个比特就能存上了。像这样将每个比特的 0 和 1 映射为二元的业务状态，这种思路就叫位图（bitmap）。
+
+在 Spring Data Redis 中，因为 BitMap 底层是基于 String 数据结构，所以其操作也都封装在字符串相关操作中了。
+
+```java
+@Override
+public Result sign() {
+    Long userId = UserHolder.getUser().getId();
+    LocalDateTime now = LocalDateTime.now();
+    String key = USER_SIGN_KEY + userId + now.format(DateTimeFormatter.ofPattern(":yyyyMM"));
+    int dayOfMonth = now.getDayOfMonth();
+    stringRedisTemplate.opsForValue().setBit(key, dayOfMonth - 1, true);
+    return Result.ok();
+}
+```
+
+### 签到统计
+
+- 当前连续签到天数：从最后一次签到开始向前统计，直到遇到第一次未签到为止，计算总的签到次数，就是连续签到天数。
+- 获取本月到今天为止的所有签到数据：`BITFIELD key GET u[dayOfMonth] 0`
+- 从后向前遍历比特位：反复与 1 做与运算，每次右移一位，得到 1 就加 1 计数，得到 0 就结束。原理为 1 & xxx1 = 1，1 & xxx0 = 0。使用 `>>>` 而不是 `>>` 来无符号右移。
+
+```java
+@Override
+public Result signCount() {
+    Long userId = UserHolder.getUser().getId();
+    LocalDateTime now = LocalDateTime.now();
+    int dayOfMonth = now.getDayOfMonth();
+    String key = USER_SIGN_KEY + userId + now.format(DateTimeFormatter.ofPattern(":yyyyMM"));
+    List<Long> result = stringRedisTemplate.opsForValue().bitField(key,
+            BitFieldSubCommands.create()
+                    .get(BitFieldSubCommands.BitFieldType.unsigned(dayOfMonth)).valueAt(0));
+    if (result == null || result.isEmpty()) return Result.ok(0);
+    Long bits = result.get(0);
+    if (bits == null || bits == 0) return Result.ok(0);
+    int count = 0;
+    while ((bits & 1) != 0) {
+        ++count;
+        bits >>>= 1;
+    }
+    return Result.ok(count);
+}
+```
+
+## UV 统计的实现
+
+UV：Unique Visitor，也叫独立访客量，是指通过互联网访问、浏览这个页面的自然人。一天内同一个户多次访问该网站，只记录一次 UV。
+
+PV：Page View，也叫页面访问量或点击量，用户每访问网站的一个页面，记录一次 PV，用户多次打开页面，则记录多次 PV。PV 一般用来衡量网站的流量。
+
+把 PV:UV 的值与 1 比较，就可以知道网站的用户粘度如何，越大于 1 粘度就越高。
+
+UV 统计在服务端做会比较麻烦，因为要判断该用户是否已经统计过了，需要将统计过的用户信息保存。但是如果每个访问的用户都保存到 Redis 中，数据量会非常恐怖。因此，一般使用 HyperLogLog 来做 UV 统计。
+
+### Redis HyperLogLog 类型
+
+HyperLogLog (HLL) 是从 LogLog 算法派生的概率算法，用于确定非常大的集合的基数，而不需要存储其所有值。HyperLogLog 相关算法原理大家可以参考[这篇文章](https://juejin.cn/post/6844903785744056333)。
+
+Redis 中的 HLL 是基于 String 结构实现的，单个 HLL 的内存永远小于 16 KiB，内存占用低得令人发指。作为代价，其测量结果是概率性的，有小于 0.81% 的误差。不过对于 UV 统计来说，这完全可以忽略。
+
+`PFADD` 添加特定元素到 HLL，`PFCOUNT` 计算 HLL 的估计值，`PFMERGE` 合并若干个 HLL。
+
+### HyperLogLog 实现 UV 统计的测试用例
+
+```java
+@Test
+void testHyperLogLog() {
+    String[] users = new String[1000];
+    int index;
+    for (int i = 0; i < 100_0000; i++) {
+        index = i % 1000;
+        users[index] = "user_" + i; //user_0, ..., user_999999
+        if (index == 999) {
+            stringRedisTemplate.opsForHyperLogLog().add("hll1", users);
+        }
+    }
+    Long size = stringRedisTemplate.opsForHyperLogLog().size("hll1");
+    System.out.println("size of hll1: " + size);
+    //第一次：997593个UV，第二次：997593个UV，误差0.002407，hll1占用12.55KiB
 }
 ```
 

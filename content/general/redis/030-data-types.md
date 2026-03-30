@@ -13,14 +13,13 @@ Redis 的 `key` 一般的都是 `String` 类型，但是 `value` 可以是各种
 - `List`：列表，有序集合，`[A -> B -> C -> C]`
 - `Set`：无序集合，`{A, B, C}`
 - `SortedSet`：可排序的集合，`{A: 1, B: 2, C: 3}`
+- [`Stream`]({{% sref "redis-message-queue#基于-stream-的消息队列" %}})：消息队列
 
-特殊类型：
+特殊类型：基于基本类型
 
-- `GEO`：地理位置，`{ A: (120.3, 30.5) }`
-- `BitMap`：`0110110101110101011`
-- `HyperLog`：`0110110101110101011`
-
-以及其他更多类型，如 [`Stream` 类型]({{% sref "redis-message-queue#基于-stream-的消息队列" %}})。
+- `GEO`：地理位置，`{ A: (120.3, 30.5) }`，基于 `SortedSet`
+- `BitMap`：`0110110101110101011`，基于 `String`
+- [`HyperLogLog`]({{% sref "heima-dianpin#redis-hyperloglog-类型" %}})：`0110110101110101011`，基于 `String`
 
 > [!tip] `redis-cli` 查看数据结构相关命令的帮助文档
 >
