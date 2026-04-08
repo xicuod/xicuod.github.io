@@ -9,7 +9,7 @@ title: JavaWeb 过滤器
 过滤器快速入门：
 
 - 定义 `Filter`：定义一个类，实现 `Filter` 接口，并重写其所有方法。
-- 配置 `Filter`：`Filter` 类上加 `@WebFilter` 注解，配置拦截资源的路径，`urlPattern="/*"` 拦截所有请求。在 SpringBoot 引导类上加 `@ServletComponentScan` 开启 `Servlet` 组件支持。
+- 配置 `Filter`：`Filter` 类上加 `@WebFilter` 注解，配置拦截资源的路径，`urlPattern="/*"` 拦截所有请求。在 Spring Boot 引导类上加 `@ServletComponentScan` 开启 `Servlet` 组件支持。
 
 过滤器拦截路径：
 

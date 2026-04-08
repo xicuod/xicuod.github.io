@@ -6,7 +6,7 @@ title: MyBatis 快速入门
 
 [MyBatis](https://mybatis.org/mybatis-3/zh/index.html) 是一款优秀的持久层 (Dao 层, 数据访问层) 框架，用于简化 JDBC 的开发。MyBatis 本是 Apache 的一个开源项目 iBatis，2010 年这个项目由 Apache 迁移到了 Google Code，并且改名为 MyBatis。2013 年 11 月迁移到 GitHub。
 
-在 SpringBoot 项目中使用 MyBatis：
+在 Spring Boot 项目中使用 MyBatis：
 
 1. 准备工作 (创建 springboot 工程、数据库表 `user`、实体类 `User`)
 

@@ -27,9 +27,9 @@ title: SpringBootWeb 快速入门
 
 ## Spring Boot Web 后端开发
 
-使用 SpringBoot 开发一个 Web 后端应用，浏览器请求 `/hello`，Web 后端应用返回 `Hello World`。
+使用 Spring Boot 开发一个 Web 后端应用，浏览器请求 `/hello`，Web 后端应用返回 `Hello World`。
 
-1. IntelliJ IDEA Ultimate 创建 SpringBoot 工程，并勾选 Web 开发相关依赖
+1. IntelliJ IDEA Ultimate 创建 Spring Boot 工程，并勾选 Web 开发相关依赖
 2. 定义 `group.id.controller.HelloController` 类，并添加 `RestController` 注解来标识它为请求处理类
 3. 在类中添加 `hello` 方法，并添加 `RequestMapping("/hello")` 注解来指定方法处理的请求路径
 4. 运行测试
@@ -37,17 +37,17 @@ title: SpringBootWeb 快速入门
 ## SpringBootWeb 项目结构
 
 - `pom.xml`
-  - `<parent>` 标签中的是父工程 SpringFramework 的 maven 坐标，所有的 SpringBoot 工程都继承自 SpringFramework 父工程
-  - 使用的依赖：`spring-boot-starter-web` SpringBoot 的 Web 开发起步依赖、`spring-boot-starter-test` SpringBoot 单元测试起步依赖
-  - 使用的构建插件：`spring-boot-maven-plugin` SpringBoot 的 Maven 插件
+  - `<parent>` 标签中的是父工程 Spring Framework 的 maven 坐标，所有的 Spring Boot 工程都继承自 Spring Framework 父工程
+  - 使用的依赖：`spring-boot-starter-web` Spring Boot 的 Web 开发起步依赖、`spring-boot-starter-test` Spring Boot 单元测试起步依赖
+  - 使用的构建插件：`spring-boot-maven-plugin` Spring Boot 的 Maven 插件
 
 - `src/main/java/group/id/`
-  - `ArtifactNameApplication.java`：SpringBoot 应用的启动类
+  - `ArtifactNameApplication.java`：Spring Boot 应用的启动类
 
 - `src/main/resources/`
-  - `application.properties`：SpringBoot 配置文件
-  - SpringBoot 项目的静态资源 (html+css+js 等前端资源) 默认存放目录为：`classpath:/static`、`classpath:/public`、`classpath:/resources`
-  - SpringBoot 中的 `classpath` 一般包括 `src/main/resources`
+  - `application.properties`：Spring Boot 配置文件
+  - Spring Boot 项目的静态资源 (html+css+js 等前端资源) 默认存放目录为：`classpath:/static`、`classpath:/public`、`classpath:/resources`
+  - Spring Boot 中的 `classpath` 一般包括 `src/main/resources`
 
 起步依赖：
 

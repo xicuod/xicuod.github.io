@@ -101,7 +101,7 @@ List<Book> get(String title, String author, LocalDate beginDate, LocalDate endDa
 ```
 
 - `title` 和 `author` 如果用井号占位符`'%#{title}%'`，预编译 SQL 的`?` 会在单引号内`'%?%'`，不起作用。而美元占位符虽然可以解决这个问题，但又有性能低、不安全、存在 SQL 注入等问题，不推荐用。推荐的解决方案：使用 MySQL 的 concat 字符串拼接函数，`concat('%',#{title},'%')`。
-- 在 SpringBoot 1.x 版本或单独使用 mybatis 时：每个形参前需要加 `@Param("参数名")` 注解来保证参数映射有效。因为这两种情况下，一旦把 Java 源代码编译成字节码文件，编译器优化就会把原本的形参名全部替换成类似 `var1`、`var2` 的名字，这会让 MyBatis 基于反射的参数映射失效。SpringBoot 高版本引入了编译器插件，避免了这种情况。
+- 在 Spring Boot 1.x 版本或单独使用 mybatis 时：每个形参前需要加 `@Param("参数名")` 注解来保证参数映射有效。因为这两种情况下，一旦把 Java 源代码编译成字节码文件，编译器优化就会把原本的形参名全部替换成类似 `var1`、`var2` 的名字，这会让 MyBatis 基于反射的参数映射失效。Spring Boot 高版本引入了编译器插件，避免了这种情况。
 
 ### 更新行
 

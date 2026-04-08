@@ -1,7 +1,7 @@
 ---
 weight: 180
 slug: springboot-bean
-title: SpringBoot Bean
+title: Spring Boot Bean
 ---
 
 ## `ApplicationContext` 类：获取 `Bean` 实例

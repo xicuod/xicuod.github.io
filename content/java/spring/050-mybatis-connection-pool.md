@@ -16,11 +16,11 @@ title: MyBatis 数据库连接池
 
 - `Connection getConnection() throws SQLException` 获取连接
 
-常见的数据库连接池实现框架：C3P0、DBCP、Druid、Hikari (SpringBoot 默认)
+常见的数据库连接池实现框架：C3P0、DBCP、Druid、Hikari (Spring Boot 默认)
 
 - [Druid](https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter) (德鲁伊)：Druid 连接池是阿里巴巴开源的数据库连接池项目，功能强大，性能优秀，是 Java 最好的数据库连接池之一。
 
-在 SpringBoot 项目中切换到 Druid 连接池：
+在 Spring Boot 项目中切换到 Druid 连接池：
 
 - `pom.xml` 引入依赖：
 
@@ -32,7 +32,7 @@ title: MyBatis 数据库连接池
 </dependency>
 ```
 
-- SpringBoot 项目会自动切换到引入的 Druid 连接池
+- Spring Boot 项目会自动切换到引入的 Druid 连接池
 
 - 或者在 `application.properties` 中显式指定 `datasource.druid` (可选)：
 

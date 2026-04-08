@@ -75,7 +75,7 @@ public class UploadController {
     String randomFilename = UUID.randomUUID() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
     ```
 
-  - 在 SpringBoot 中，文件上传的默认单个文件允许最大大小为 1M。如果需要上传大文件，可以进行如下配置：
+  - 在 Spring Boot 中，文件上传的默认单个文件允许最大大小为 1M。如果需要上传大文件，可以进行如下配置：
 
     ```properties
     #配置单个文件最大上传大小

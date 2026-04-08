@@ -1,16 +1,16 @@
 ---
 weight: 110
 slug: springboot-configuration
-title: SpringBoot 配置
+title: Spring Boot 配置
 ---
 
-如果把常量参数分散定义在各个类中，修改时定位繁琐，且每次改完都要重新编译，不便维护及管理。要解决这个问题，要把常量参数定义在 SpringBoot 配置文件 `application.properties` 中。
+如果把常量参数分散定义在各个类中，修改时定位繁琐，且每次改完都要重新编译，不便维护及管理。要解决这个问题，要把常量参数定义在 Spring Boot 配置文件 `application.properties` 中。
 
 - `@Value` 注解：通常用于外部配置的属性注入，`@Value("${配置文件中的key}")` 写在字段上
 
 ## YML 配置文件
 
-SpringBoot 也支持 YML 格式的配置文件，文件名 `application.yml` 或 `application.yaml`。若存在多份配置文件，优先级`.properties`>`.yml`>`.yaml`。虽然 springboot 支持多种格式配置文件，但是在项目开发时，推荐统一使用一种格式的配置 (yml 是主流)。
+Spring Boot 也支持 YML 格式的配置文件，文件名 `application.yml` 或 `application.yaml`。若存在多份配置文件，优先级`.properties`>`.yml`>`.yaml`。虽然 springboot 支持多种格式配置文件，但是在项目开发时，推荐统一使用一种格式的配置 (yml 是主流)。
 
 ```yaml
 server:
@@ -97,9 +97,9 @@ public class QiniuOssProps {
 }
 ```
 
-## SpringBoot 的其他配置方式
+## Spring Boot 的其他配置方式
 
-SpringBoot 除了支持配置文件属性配置，还支持 Java 系统属性和命令行参数的方式配置属性，优先级 `Java系统属性` < `命令行参数` < `配置文件`，一般用于执行已打包的项目时更改配置。
+Spring Boot 除了支持配置文件属性配置，还支持 Java 系统属性和命令行参数的方式配置属性，优先级 `Java系统属性` < `命令行参数` < `配置文件`，一般用于执行已打包的项目时更改配置。
 
 - Java 系统属性 (虚拟机选项)：`-Dserver.port=9000`
 - 命令行参数 (程序实参)：`--server.port=10010`
@@ -111,7 +111,7 @@ SpringBoot 除了支持配置文件属性配置，还支持 Java 系统属性和
    java -Dserver.port=9000 -jar tlias-web-management-0.0.1-SNAPSHOT.jar --server.port=10010
    ```
 
-SpringBoot 项目打包时，需要在 `pom.xml` 的 `<plugins>` 标签下引入插件依赖 `spring-boot-maven-plugin` (基于官网骨架创建项目时，会自动添加该插件)。
+Spring Boot 项目打包时，需要在 `pom.xml` 的 `<plugins>` 标签下引入插件依赖 `spring-boot-maven-plugin` (基于官网骨架创建项目时，会自动添加该插件)。
 
 > [!note] 我的排错案例：lombok “找不到符号”
 >

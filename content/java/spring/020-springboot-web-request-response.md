@@ -13,7 +13,7 @@ title: SpringBootWeb 请求响应
 
 ![DispatcherServlet](https://img.xicuodev.top/2026/03/a39de72ce8d880ad8a59ab40610803b8.png "DispatcherServlet")
 
-- `DispatcherServlet` 类：SpringBoot 底层的前端控制器，实现 Java EE `Servlet` 接口的请求响应规范
+- `DispatcherServlet` 类：Spring Boot 底层的前端控制器，实现 Java EE `Servlet` 接口的请求响应规范
 - `HttpServletRequest` 请求类：获取请求数据
 - `HttpServletResponse` 响应类：设置响应数据
 - 可以在 `@Component` 组件类中用 `@Autowired` 注入 `HttpServletRequest` 和 `HttpServletResponse` 依赖，来随时获取本次请求响应的请求数据和响应数据
@@ -37,7 +37,7 @@ public String simpleParam(HttpServletRequest request) {
 }
 ```
 
-SpringBoot 方式：
+Spring Boot 方式：
 
 - 简单参数：参数名与形参变量名相同，定义形参即可接收参数。
   ```java
