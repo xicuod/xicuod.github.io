@@ -56,6 +56,6 @@ DI 的实现细节：
 
 - `@Autowired` 注解默认按类型注入 `bean` 依赖，如果存在多个相同类型的 `bean`，将会报出 `required a single bean` 错误字样
 - 解决一个容器装多个 `bean` 不知道注入哪个的问题：
-  - `@Component`+`@Primary `指定主要 `bean`，会优先注入
+  - `@Component`+`@Primary` 指定主要 `bean`，会优先注入
   - `@Autowire`+`@Qualifier` 直接指定要注入的 `bean` 名，设置 `value` 属性为要注入的 `bean` 名
   - `@Resource` 直接指定要注入的 `bean` 名，设置 `name` 属性为要注入的 `bean` 名，默认按名称注入，这是 JDK 提供的注解，更原生

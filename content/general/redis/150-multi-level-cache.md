@@ -1,7 +1,7 @@
 ---
 weight: 150
 slug: multi-level-cache
-title: 多级缓存
+title: 多级缓存架构
 ---
 
 ## 传统缓存的弊端与多级缓存的优势
@@ -508,6 +508,8 @@ public @interface CanalTable {
 ## 多级缓存总结
 
 ![多级缓存架构](https://img.xicuodev.top/2026/04/c5bd855dff8cb18849664b1aa0af05e3.png "多级缓存架构")
+
+![我的多级缓存架构](https://img.xicuodev.top/2026/04/0de1d7dfaa8f49516fbcdeb592c0b65d.svg "我的多级缓存架构")
 
 最终的docker-compose.yml：
 
