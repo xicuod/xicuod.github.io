@@ -4,12 +4,12 @@ slug: springboot-web-request-response
 title: SpringBootWeb 请求响应
 ---
 
-## Web 请求响应架构
+## Web 请求-响应架构
 
 - BS 架构 (Browser/Server, 浏览器 / 服务器架构模式)：客户端只需要浏览器，应用程序的逻辑和数据都存储在服务端。
 - CS 架构 (Client/Server, 客户端 / 服务器架构模式)：客户端需要专门的客户端软件，开发、维护麻烦，体验不错。
 
-## DispatcherServlet 请求响应类
+## DispatcherServlet 请求-响应类
 
 ![DispatcherServlet](https://img.xicuodev.top/2026/03/a39de72ce8d880ad8a59ab40610803b8.png "DispatcherServlet")
 
@@ -68,7 +68,7 @@ Spring Boot 方式：
 
 - 路径参数：通过请求 URL 直接传递参数 (域名和端口号后面直接跟路径参数)，响应方法的 `@RequestMapping` 注解的参数中使用 `{param}` 来标识路径参数，方法形参需要使用 `@PathVariable` 获取路径参数，`localhost:8080/path/1/homepage`，`@RequestMapping("/path/{id}/{pageName}")`，`@PathVariable Integer id, @ParhVariable String pageName`
 
-## 后端响应数据
+## 后端返回响应数据
 
 - `@ResponseBody` 响应体注解：把方法的返回值作为响应体响应，如果返回值类型是实体对象或集合，会转换为 JSON 格式再响应
   - 类型：方法注解、类注解
@@ -125,7 +125,7 @@ public class BookController {
 }
 ```
 
-## 请求响应操作数据库
+## 请求-响应操作数据库
 
 - 增加记录：`@PostMapping` 方法 + `@RequestBody` 参数
 - 删除记录：`@DeleteMapping` 方法 + `@PathVariable` 参数
@@ -163,3 +163,42 @@ http://localhost:8080/users/1			DELETE：删除id为1的用户
 - REST 用 URL 来定位资源、HTTP 动词来描述操作，简洁、规范、优雅。
 - REST 是风格，是约定方式，约定不是规定，可以打破。
 - REST 描述模块的功能通常使用复数，也就是加 s 的格式来描述，表示此类资源，而非单个资源。
+
+### Swagger RESTful API 工具集
+
+[Swagger](https://www.runoob.com/swagger/swagger-tutorial.html) 是一套用于设计、构建、文档化和测试 RESTful API 的开源工具集。Swagger 提供了一种标准化的方式来描述 API 的结构、请求参数、响应格式等信息，使得前后端开发人员能够更高效地协作。Swagger 是由 SmartBear Software 提供的一套 API 开发工具集，最初是独立的 API 规范，现在已成为 OpenAPI Specification 的基础。
+
+访问 localhost:8080/doc.html 即可进入 swagger 后台；swagger 常用注解详见[这里](https://www.cnblogs.com/three-fighter/p/12346184.html)。
+
+```xml
+<!--swagger-->
+<dependency>
+  <groupId>com.github.xiaoymin</groupId>
+  <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+  <version>4.1.0</version>
+</dependency>
+```
+
+```yml
+knife4j:
+  enable: true
+  openapi:
+    title: 用户管理接口文档
+    description: "用户管理接口文档"
+    email: zhanghuyi@itcast.cn
+    concat: 虎哥
+    url: https://www.itcast.cn
+    version: v1.0.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - com.itheima.mp.controller
+```
+
+```java
+@ApiOperation("删除用户")
+@DeleteMapping("{id}")
+public void saveUser(@ApiParam("用户id") @PathVariable("id") Long id) {}
+```
