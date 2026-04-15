@@ -119,15 +119,16 @@ dict的hashtable是数组+单向链表，当集合元素较多，哈希冲突增
 2. 按新realeSize申请内存，赋值给ht[1]；
 3. rehashidx=0，开始rehash；
 4. ~~ht[0]每个dictentry都rehash到ht[1]；~~
-5. ht[1]赋值给ht[0]完成交接，ht[1]重新置空，释放原ht[0]内存；
+5. ht[1]赋值给ht[0]完成交接，释放原ht[0]内存，ht[1]重新置空；
 
 第4步如果数百万entry rehash会阻塞主线程，不行；所以rehash是分多次、渐进式的，又称“渐进式rehash”，具体操作是：
 
 4. 每次crud都检查rehashidx是否大于-1，即是否正在rehash，如果在则把ht[0].table[rehashidx]的entry链表rehash到ht[1]，并rehashidx++；直到ht[0]所有数据都rehash到ht[1]；rehash是移动，ht[0]的元素会越来越少；
-6. rehashidx=-1，结束rehash；
-7. rehash期间crud对ht[0] ht[1]两张表都查，否则不知道key是新增的还是未rehash的；新增操作直接写到ht[1]，查询修改删除两表都做；确保ht[0]只减不增，最后为空；
+5. rehash期间crud对ht[0] ht[1]两张表都查，否则不知道key是新增的还是未rehash的；新增操作直接写到ht[1]，查询修改删除两表都做；确保ht[0]只减不增，最后为空；
+6. 两表交接；
+7. rehashidx=-1，结束rehash；
 
-渐进式rehash是“redis这么快”的原因之一；
+渐进式rehash是“redis这么快”的原因之一。
 
 ### ziplist
 
