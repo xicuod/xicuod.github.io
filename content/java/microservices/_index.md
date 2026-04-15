@@ -1,6 +1,6 @@
 ---
 weight: 30
-slug: java-microservices
+slug: microservices
 title: Java 微服务
 ---
 

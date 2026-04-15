@@ -25,13 +25,9 @@ server:
 YML 基本语法：
 
 - 大小写敏感
-
 - 冒号后数值前必须有空格，作为分隔符
-
 - 使用缩进表示层级关系，缩进时不允许使用 Tab 制表符，只能用空格 (IDEA 中会自动将 Tab 转换为空格)
-
 - 缩进的空格个数不重要，只要相同层级的元素左侧对齐即可
-
 - 用`#`来写注释，从这个字符一直到行尾，都会被解析器忽略
 
 YML 定义对象、Map 集合：
@@ -52,6 +48,12 @@ hobby:
 	- c#
 	- video game
 ```
+
+## `profiles` 不同环境不同配置
+
+一般开发环境用一份配置，生产环境用另一份；不同环境一般就几个地方要改，可以分成主配置文件 `application.yml` 写通用配置，公司的开发环境用开发配置文件 `application-dev.yml` 写开发环境敏感配置，然后你可能自己本地又有一个测试环境，就要弄一个 `application-local.yml`。
+
+主配置文件中通过 `spring.profiles.active` 选取启用哪个环境的配置文件：通过 `${value.at.some.place}` 引用别处的配置值，可以跨文件引用，配合 `profiles` 可以自动切换那几个根据环境不同要改的地方的值。在idea的“服务”页面右键Spring Boot服务也能“编辑所选配置...”，在“有效配置文件”处填`dev`或`local`即可。
 
 ## `@ConfigurationProperties` 注解
 
