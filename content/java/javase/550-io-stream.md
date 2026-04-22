@@ -105,9 +105,17 @@ try {
 
 无论出不出异常，IO 流都需要释放资源，因此在 `finally` 中释放资源。但是这样写太麻烦了，于是可以用 `AutoCloseable` 接口，它可以在特定情况下释放资源。
 
-![IO 流 try-catch 异常处理](https://img.xicuodev.top/2026/03/450282d4def9558bfdf5c9158f47f09a.png "IO 流 try-catch 异常处理")
+`try` 的括号中写创建 IO 流对象的代码，JDK 9 才能把创建写在外面。只有实现了 `AutoCloseable` 接口的类，才支持 `try-with-resources` 写法，而 IO 流的类一般都实现了 `AutoCloseable` 接口。详见[这里](https://www.runoob.com/java/java9-try-with-resources-improvement.html)。
 
-`try` 后面的小括号中写创建对象的代码。只有实现了 `AutoCloseable` 接口的类，才能在 `try` 的小括号中创建对象。而 IO 流的类一般都实现了 `AutoCloseable` 接口。
+```java
+try (FileOutputStream fo = new FileOutputStream("assets/c.txt")) {
+  fo.write(new byte[]{97, 98, 99, 100, 101}, 1, 2); /* bc */
+} catch (IOException e) {
+  throw new RuntimeException(e);
+} /* 自动finally回收资源 */
+```
+
+![IO 流 try-catch 异常处理的 3 种方案](https://img.xicuodev.top/2026/03/450282d4def9558bfdf5c9158f47f09a.png "IO 流 try-catch 异常处理的 3 种方案")
 
 ## 字符流
 
@@ -168,6 +176,10 @@ try {
 ## 字节缓冲流 (`BufferedOutputStream`...)
 
 **字节缓冲流**底层自带了长度为 8192 的缓冲区提高性能，包括 `BufferedOutputStream` 类和 `BufferedOutputStream` 类。
+
+```java
+while ((len = bis.read(buf)) != EOF) { /* do something with buf & len */ }
+```
 
 - 构造方法：把基本流包装成高级流，提高写出数据的性能
   - `BufferedInputStream(InputStream is)`

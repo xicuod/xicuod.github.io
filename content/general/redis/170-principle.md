@@ -6,7 +6,7 @@ title: Redis 原理
 
 ## Redis 数据结构
 
-### 动态字符串 sds
+### 简单动态字符串 sds
 
 redis中所有顶层数据结构都是字符串或字符串的集合；字符串是最常用的；但red没用c的字符串，因为它：本质字符数组，连续内存空间，获取长度需要计算；非二进制安全；不可修改；
 
@@ -100,8 +100,8 @@ dict {
 
 dict的hashtable是数组+单向链表，当集合元素较多，哈希冲突增多，链表过长，查询效率大大降低。解决：负载因子LoadFactor = used:size，触发哈希表扩容的时机：
 
-- 负载因子>=1，且没有bgsave或bgrewriteaof等后台进程，cpu有余力；
-- 负载因子>5；
+- 负载因子>=1，且没有bgsave或bgrewriteaof等后台进程，cpu有余力；扩容；
+- 负载因子>5；扩容；
 
 这会将数组扩容为从used+1向上取到的最近的2的幂，保证哈希取模算法成立；
 
@@ -123,7 +123,7 @@ dict的hashtable是数组+单向链表，当集合元素较多，哈希冲突增
 
 第4步如果数百万entry rehash会阻塞主线程，不行；所以rehash是分多次、渐进式的，又称“渐进式rehash”，具体操作是：
 
-4. 每次crud都检查rehashidx是否大于-1，即是否正在rehash，如果在则把ht[0].table[rehashidx]的entry链表rehash到ht[1]，并rehashidx++；直到ht[0]所有数据都rehash到ht[1]；rehash是移动，ht[0]的元素会越来越少；
+4. 每次crud都检查rehashidx是否大于-1，即是否正在rehash，如果在则把ht[0].table[rehashidx]的entry链表rehash到ht[1]，并rehashidx++；直到ht[0]所有数据都rehash到ht[1]（rehash是移动，ht[0]的元素会越来越少）；
 5. rehash期间crud对ht[0] ht[1]两张表都查，否则不知道key是新增的还是未rehash的；新增操作直接写到ht[1]，查询修改删除两表都做；确保ht[0]只减不增，最后为空；
 6. 两表交接；
 7. rehashidx=-1，结束rehash；
@@ -132,9 +132,54 @@ dict的hashtable是数组+单向链表，当集合元素较多，哈希冲突增
 
 ### ziplist
 
+> dict内部大量使用指针，内存分散，问题：造成内存碎片，指针占不少内存，内存浪费；解决：ziplist；
 
+ziplist是“双端链表”，一系列特殊编码的连续内存块，任意一端都可压入弹出，且T=O(1)；头信息zlbytes 总字节数 总长度（含非节点块）、zltail 尾节点偏移量、zllen entry节点个数；尾信息zlend=0xff标记结束；
+
+各内存块长度：zlbytes u32；zltail u32；zllen u16；entry 取决于内容编码；zlend u8；
+
+entry按需划分长度，长度不一，且没有指针，既不能数组寻址，又不能链表寻址，怎么寻址？
+
+entry结构：previous_entry_length前一个节点长度，长度值<254，u8，长度值>=254，u40，第一个字节固定0xfe，后四个字节存长度值；encoding编码，content的类型和长度，u8 u16或u40；content数据，类型可为字符串或整数；pel enc con长度都是可知的，实现正序遍历；pel知道前一个节点的长度，实现逆序遍历；
+
+ziplist所有存长度的数据pel enc都采用小端序；
+
+> [!note] 小端序
+>
+> 低地址存低位字节，高地址存高位字节，如 0xab cd 存成 0xcd ab，0x00 02 存成 0x02 00。与人类阅读书写习惯相反。
+
+enc分为字符串和整数：若enc以00 01 10开头，则content是字符串：下表pqrst中存的是con长度；
+
+|                     编码                     | 编码长度 |       字符串长度       |
+| :------------------------------------------: | :------: | :--------------------: |
+|                   00pppppp                   | 1 bytes  |      <= 63 bytes       |
+|              01pppppp qqqqqqqq               | 2 bytes  |    <= 16,383 bytes     |
+| 10000000 qqqqqqqq rrrrrrrr ssssssss tttttttt | 5 bytes  | <= 4,294,967,295 bytes |
+
+空zl，存"ab"：pel 0000 0000 enc 0000 0010 con 0110 0001 0110 0010 = 0x00 0x02 0x61 62；存"bc"：0x04 0x02 0x62 63；整个zl：zlbytes 0x13 00 00 00, zltail 0x0e 00 00 00, zllen 0x02 00, entry0 0x00 0x02 0x61 62, entry1 0x04 0x02 0x62 63, zlend 0xff；
+
+若enc以11开头，则con是整数：enc固定1字节；
+
+|   编码    | 编码长度 |        整数类型        |
+| :-------: | :------: | :--------------------: |
+| 1100 0000 | 1 bytes  |   int16_t (2 bytes)    |
+| 1101 0000 | 1 bytes  |   int32_t (4 bytes)    |
+| 1110 0000 | 1 bytes  |   int64_t (8 bytes)    |
+| 1111 0000 | 1 bytes  | 24位有符整数 (3 bytes) |
+| 1111 1110 | 1 bytes  | 8位有符整数 (1 bytes)  |
+| 1111 xxxx | 1 bytes  |    直接xxxx存数值*     |
+
+*范围0001-1101(1-13，别的值已经有特殊含义了)，减1为实际值(0-12)。案例：空zl，存2：pel 0000 0000 enc 1111 0011 = 0x00 0xf3；存5：0x02 0xf6；整个zl：0x0f 00 00 00, 0x0c 00 00 00, 0x02 00, 0x00 0xf3, 0x02 0xf6, 0xff；
+
+zl遍历寻址耗时较长T=O(n)，但时间换空间省内存；
+
+#### ziplist连锁更新
+
+连续的几个entry都差点到254字节，如果前面的entry变为254，那么后面的entry pel会从1字节提升为5字节，于是后一个entry也到254，引发连锁效应；zl称这种连续的多次空间扩展为连锁更新（cascade update），crud的c和d都可能导致连锁更新；频繁申请销毁内存，性能很差；解决：listpack；
 
 ### quicklist
+
+
 
 ### 跳表skiplist
 

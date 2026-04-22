@@ -1,5 +1,5 @@
 ---
-weight: 100
+weight: 50
 slug: jvm
 title: Java 虚拟机 (JVM)
 ---

@@ -47,5 +47,7 @@ title: Java 类型转换
 
 ### 大端序 Big-Endian
 
-- Java 的基本数据类型采用大端序存储：高位字节 (MSB, Most Significant Byte) 存储在低地址，低位字节 (LSB, Least Significant Byte) 存储在高地址。
-- JVM 规范：强转导致内存溢出时，截断高位，保留低位。根据大端序，截断低地址，保留高地址。
+大端序：高位字节 (MSB, Most Significant Byte) 存储在低地址，低位字节 (LSB, Least Significant Byte) 存储在高地址。与人类阅读书写习惯相同。
+
+- Java 的基本数据类型采用大端序来存储。
+- JVM 规范：强转导致内存溢出时，截断高位字节，保留低位字节。根据大端序，截断低地址，保留高地址。
