@@ -1,6 +1,7 @@
 ---
-title: C# partial 类
+weight: 
 slug: c-sharp-partial-class
+title: C# partial 类
 ---
 
 `partial` 类把一个完整的类分为多个部分，每个部分可以按自己的步调维护和更新。
