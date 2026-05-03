@@ -109,7 +109,8 @@ disableKinds = []
     linux = '/:slug/'
 
 [markup.highlight]
-  noClasses = false
+  noClasses = true
+  style = 'dracula'
 
 [markup.goldmark.extensions.passthrough]
 enable = true

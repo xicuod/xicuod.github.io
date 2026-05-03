@@ -8,7 +8,7 @@ title: 系错的技术笔记
 ## Java 技术栈
 
 - [Java 技术栈笔记]({{% sref "java" %}})
-  - Java 八股四大件：[MySQL]()、[Redis]({{% sref "redis" %}})、[JVM]({{% sref "jvm" %}})、[JUC]({{% sref "java-util-concurrent" %}})
+  - Java 八股四大件：[MySQL](https://ris3team.feishu.cn/wiki/HG8KwKSjxirg9Wk49Vscn6A5n3e)、[Redis]({{% sref "redis" %}})、[JVM]({{% sref "jvm" %}})、[JUC]({{% sref "java-util-concurrent" %}})
 - [Android 技术栈笔记]({{% sref "android" %}})
 
 ## 更多技术栈

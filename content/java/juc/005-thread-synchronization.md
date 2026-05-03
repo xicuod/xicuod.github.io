@@ -75,9 +75,7 @@ putstatic i     # 将修改后的值存入静态变量 i
 
 synchronized俗称【对象锁】，它采用互斥的方式让同一时刻至多只有一个线程能持有【对象锁】，其它线程再想获取这个【对象锁】时就会阻塞住。这样就能保证拥有锁的线程可以安全的执行临界区内的代码，不用担心线程上下文切换。
 
-注意：虽然java中互斥和同步都可以由synchronized实现，但它们还是有区别的：互斥是保证临界区的竞态条件发生，同一时刻只能有一个线程执行临界区代码；同步是由于线程执行的先后顺序不同，需要一个线程等待其它线程运行到某个点。
-
-`synchronized` 同步代码块的声明：
+虽然synchronized既实现了互斥又实现了同步，但它们还是有区别的：互斥消除了临界区的竞态条件，使得同一时刻只能有一个线程执行临界区代码；同步是由于线程执行的先后顺序不同，需要一个线程等待其它线程运行到某个点。
 
 ```java
 synchronized (锁对象) {临界区}
@@ -87,10 +85,12 @@ synchronized (锁对象) {临界区}
 - 里面的代码全部执行完毕，线程出来，锁自动打开
 - 锁对象可以是任何对象，但必须是线程间唯一的，推荐使用当前类的字节码对象
 - 一个资源一把锁，不能混用也不能复用
+- synchronized是悲观锁，应该只锁住那些临界区的代码，不要锁多了浪费性能
+- 又要读又要写的资源，读取它的逻辑也要加锁，不然会读到脏数据，有“不可重复读”问题
 
 ```java
 static int resource;
-static final Object lock = ThisClass.class; //锁为当前类的字节码对象
+static final Object lock = This.class; //锁为当前类的字节码对象
 
 public static void main(String[] args) {
     Runnable r = () -> {
@@ -107,20 +107,55 @@ public static void main(String[] args) {
 
 ### `synchronized` 同步方法
 
-`synchronized` 同步方法的声明：
+同步方法会锁住方法里面所有的代码。同步方法的锁对象不能自己指定，而是规定好的：非静态方法使用当前对象（`this`），静态方法使用当前类的字节码对象（`This.class`）。不加synchronized的方法就是不遵守锁规则的人，可以随时随地、不加约束地执行它的代码。
 
 ```java
-synchronized 方法头(参数列表) {方法体}
+public synchronized void foo() {}
+//相当于：
+public void foo() {
+    synchronized (this) {}
+}
 ```
 
-- 同步方法会锁住方法里面所有的代码
-- 同步方法的锁对象不能自己指定，而是 Java 规定好的：
-  - 非静态：当前对象 `this`
-  - 静态：当前类的字节码文件（`.class` 文件）对象
+```java
+public class Foo {
+    public synchronized static void bar() {}
+}
+//相当于：
+public class Foo {
+    public static void bar() {
+        synchronized (Foo.class) {}
+    }
+}
+```
 
-## `java.lang.Lock` 接口
+线程八锁问题：就是搞清楚两个方法锁的是不是同一个对象；如果是那么就是同步方法，要考虑先后，否则就是几乎同时；
 
-虽然可以理解同步代码块和同步方法的锁对象问题，但我们并没有直接看到在哪里加上了锁，在哪里释放了锁，为了更清晰的表达如何加锁和释放锁，JDK 5 以后提供了一个新的 `java.lang.Lock` 接口。
+### 变量的线程安全性分析
+
+不共享的资源，那一定线程安全；共享的资源如果只有读，那么线程安全；如果读写都有，那么需要维护线程安全；
+
+- 成员变量和静态变量都能作为共享资源，读写时需要考虑线程安全；
+- 局部变量是方法中的变量，与方法共生死（方法的生命周期包含局部变量的生命周期），它如果是值类型那么是线程安全的；它如果是引用类型，那么引用的对象可能逃离该方法在别处也被引用干一些事情，这时需要维护线程安全；例如对于当前类的抽象方法或其他可以重写的方法，它有一个引用类型参数，行为不确定，就可能导致对于引用对象的线程不安全行为，称之为“外星方法”；
+
+父类要做好封装工作，防止子类重写父类的临界区方法，导致线程安全问题：对于需要公开的public方法，加上final防止子类重写；对于不需要公开的方法，果断设置为private，防止子类重写；这就是开闭原则中的close思想的体现。
+
+### 常见的线程安全类
+
+常见的线程安全类有String、Integer、Random、StringBuffer、Vector、HashTable和juc包下的绝大多数类；
+
+- String和Integer的线程安全不是通过加锁实现的，而是通过不可变性（immutability），对象一旦创建不可修改，任何写操作都是创建一个新的对象；
+- Random的实现是用CAS比较并交换法；
+- StringBuffer、Vector和HashTable的实现就是加了synchronized；
+- juc包的实现用了更复杂的技术保证线程安全，性能比synchronized高得多；
+
+然而，这些线程安全类只能保证方法内原子，如果把它们的同步方法组合起来用就不是原子了；比如hashtable先get()校验后put()，这就是两步操作了，有被别的线程穿插的风险，这是典型的“检查后行动”（check-then-act）的竞态条件；
+
+另外，无状态的类也是线程安全的，如工具类，某些dao类等；无状态类就是对象的行为完全由其方法参数决定，且不依赖、不修改任何可变的外部或共享状态。
+
+### `java.lang.Lock`
+
+虽然可以理解同步代码块和同步方法的锁对象问题，但我们并没有直接看到在哪里加上了锁，在哪里释放了锁，为了更清晰的表达如何加锁和释放锁，JDK5提供了一个新的接口`java.lang.Lock`。
 
 `Lock` 提供比 `synchronized` 方式更广泛的锁定操作，提供了获得锁和释放锁的方法。
 
@@ -129,11 +164,11 @@ synchronized 方法头(参数列表) {方法体}
 
 `java.lang.Lock` 是接口，不能直接实例化，采用它的实现类 `java.util.concurrent.locks.ReentrantLock` 来实例化。
 
-## 死锁 Deadlock
+### 死锁 Deadlock
 
 **死锁**是一个进程集合中的每个进程都在等待只能由其他进程才能发起的事件，从而无限期陷入僵持的局面。详见[死锁]()。
 
-## 等待唤醒机制
+### 等待唤醒机制
 
 **等待唤醒机制** (生产者消费者模式) 是一个十分经典的多线程协作的模式，它可以让两条线程轮流执行，而非随机争抢，其中一条是生产者，另一条是消费者。 等待唤醒机制用一个中介者 (餐桌) 来控制两条线程的执行。
 
@@ -146,7 +181,7 @@ synchronized 方法头(参数列表) {方法体}
   - 生产者先抢到执行权，但餐桌上已经有资源，只能等待 (`wait`)
   - 消费者后抢到执行权，看到餐桌上有资源，于是消费该资源，并唤醒 (`notify`) 生产者继续生产资源
 
-### `wait-notify` 实现等待唤醒机制
+#### `wait-notify` 实现等待唤醒机制
 
 `wait-notify` 方法 (直接写在 `Object` 类里的，任何类都有)：要在各线程中用同一锁对象调用下列方法，以使它们关联同一把锁，从而 `wait-notify` 方法可以联动起来
 
@@ -154,7 +189,7 @@ synchronized 方法头(参数列表) {方法体}
 - `notify()` 随机唤醒单个线程
 - `notifyAll()` 唤醒所有线程
 
-### 阻塞队列实现等待唤醒机制
+#### 阻塞队列实现等待唤醒机制
 
 生产者和消费者之间放一个队列，先进先出，生产者 `put` 数据，消费者 `take` 数据。
 
@@ -181,16 +216,19 @@ synchronized 方法头(参数列表) {方法体}
 - 但是如果提交任务时，池子中没有空闲线程，也无法创建新的线程，任务就会排队等待
 - 所有的任务全部执行完毕，关闭线程池
 
-线程池创建方法：`Executors` 是线程池的工具类，提供方法返回不同类型的线程池对象。
+### 构造线程池对象
 
-- `static ExecutorService newCachedThreadPool()` 创建一个没有上限 (`int` 类型的上限) 的线程池
-- `static ExecutorService newFixedThreadPool (int nThreads)` 创建有上限的线程池
-- 线程池中的线程名称默认格式为 `pool-x-thread-y`，`x` 和 `y` 是序号
+线程池静态工厂方法：`Executors` 是线程池的工具类，提供静态工厂方法返回不同类型的线程池对象。
+
+- `ExecutorService newCachedThreadPool()`构造一个没有上限 (实际为`int`的上限) 的线程池
+- `ExecutorService newFixedThreadPool(int nThreads)`构造一个有上限的线程池
+
+线程池中的线程名称默认格式为 `pool-x-thread-y`，`x` 和 `y` 是序号。
 
 `ThreadPoolExecutor` 成员方法：
 
-- `submit()` 方法：提交任务，可以是 `Runnable` 或 `Callable` 的实现对象和一个可选的 `Runnable` 实现的结果参数
-- `shutdown()` 方法：关闭线程池
+- `submit()`：提交任务，可以是`Runnable`，或`Callable`和一个可选的`Runnable`结果参数
+- `shutdown()`：关闭线程池
 
 `ThreadPoolExecutor` 构造方法：`Executors` 底层调用的就是该类的构造方法，该类是 `ExecutorService` 的子类
 
