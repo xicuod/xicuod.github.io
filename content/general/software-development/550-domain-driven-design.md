@@ -6,7 +6,7 @@ title: 领域驱动设计 DDD
 
 > 写于2026年1月初。坐标：软件开发-实践-领域驱动设计。
 
-DDD（domain-driven design，领域驱动设计）是一个很好的应用于微服务架构的方法论。DDD要求，在项目的全生命周期内，所有岗位的人员都基于对业务的相同的理解来开展工作。所有人员都站在用户的角度、业务的角度去思考问题，而不是站在技术的角度去思考问题。DDD诞生于2004年，兴起于2014年（微服务元年）。
+DDD（domain-driven design，领域驱动设计）是一个将业务领域逻辑作为软件设计核心的、能够很好地应用于微服务架构的方法论。DDD要求，在项目的全生命周期内，所有岗位的人员都基于对业务的相同的理解来开展工作。所有人员都站在用户的角度、业务的角度去思考问题，而不是站在技术的角度去思考问题。DDD诞生于2004年，兴起于2014年（微服务元年）。
 
 ## 怎样学习DDD？
 
@@ -336,10 +336,10 @@ EF Core 如何逐条实现充血模型的要求：
 EF Core 默认只映射公共属性，不直接映射字段。如果你确实需要映射一个没有对应属性的纯字段，可使用 `Property` 方法：
 
 ```cs
-rotected override void OnModelCreating(ModelBuilder modelBuilder)
+protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
     modelBuilder.Entity<SomeEntity>()
-        .Property("_someField"); 
+        .Property("_someField");
 }
 ```
 
@@ -359,7 +359,7 @@ EF Core 常见的支持字段的自动识别模式：`name`、`_name`、`_fname`
 
 ### `HasField()`方法显式指定支持字段
 
-如果你的支持字段命名比较刁钻，使用 `HasField` 方法可以指定任意名称的字段作为“支持字段”绑定到指定的属性。假设你有一个实体类像这样：
+如果你的支持字段命名比较刁钻，使用 `HasField()` 方法可以指定任意名称的字段作为“支持字段”绑定到指定的属性。假设你有一个实体类像这样：
 
 ```cs
 public class Person
@@ -646,7 +646,7 @@ builder.UseEventBus();
 
 杨中科老师赞同前者，后者会导致控制器太瘦了，显得很没必要。
 
-## 洋葱架构实战：用户登录和管理后台系统
+## 洋葱架构实战：用户登录和管理系统
 
 需求：一个包含用户管理、用户登录功能的微服务，系统的后台允许添加用户、解锁用户、修改用户密码等；系统的前台允许用户使用手机号加密码进行登录，也允许用户使用手机号加短信验证码进行登录；如果多次尝试登录失败，则账户会被锁定一段时间；为了便于审计，无论是登录成功的操作还是登录失败的操作，我们都要记录操作日志（给老板等不懂技术的人看的审计日志）。
 
@@ -694,7 +694,7 @@ public record PhoneNumber(int RegionCode, string Number);
 
 ### `IUserRepository`仓储接口的设计
 
-仓储接口的定义应当放在领域模型层中，它是领域模型的一部分，一个领域模型对应一个仓储接口。不建议使用通用的仓储接口 `CRUDRepository`，避免陷入“伪 DDD”的误区。[202601091045-仓储和工作单元](202601091045-仓储和工作单元.md)。
+仓储接口的定义应当放在领域模型层中，它是领域模型的一部分，一个领域模型对应一个仓储接口。不建议使用通用的仓储接口 `CRUDRepository`，避免陷入“伪 DDD”的误区。
 
 ```cs
 public interface IUserRepository
@@ -843,7 +843,7 @@ public class UserService
 
 ### `UnitOfWork`工作单元的设计
 
-工作单元是由应用服务层（本例中为 `User.WebAPI`）来确定的，而其他任何层（比如仓储层）都不应该调用 `SaveChangesAsync` 方法保存对数据的修改。[202601091045-仓储和工作单元](202601091045-仓储和工作单元.md)。
+工作单元是由应用服务层（本例中为 `User.WebAPI`）来确定的，而其他任何层（比如仓储层）都不应该调用 `SaveChangesAsync` 方法保存对数据的修改。
 
 可以开发一个在控制器的方法调用结束后自动调用 `SaveChangesAsync` 的过滤器（`Filter`）：`UnitOfWorkAttribute` 和 `UnitOfWorkFilter`。
 

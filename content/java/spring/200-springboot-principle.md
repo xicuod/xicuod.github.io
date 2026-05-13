@@ -55,5 +55,6 @@ Spring Boot 自动配置的源码跟踪：
 - `@ConditionalOnMissingBean`：判断环境中没有对应类型 (`value` 属性) 或名称 (`name` 属性) 的 `bean`，才注册 `bean` 到 IOC 容器。
 - `@ConditionalOnProperty`：判断配置文件中有指定属性 (`name` 属性) 和值 (`havingValue` 属性)，才注册 `bean` 到 IOC 容器。
 
-## Spring Boot 原理前置知识
+## Spring Boot 原理
 
+见[‌​⁢⁡⁡⁡Spring面试 - 飞书云文档](https://ris3team.feishu.cn/wiki/CskPw3BjEilRpgk6Xd3cCscfnsh "‌​⁢Spring面试 - 飞书云文档")。
