@@ -20,4 +20,4 @@ title: Linux 软链接
 
 软链接在 `ls -l` 中显示为：`yum -> /etc/yum`，`yum.conf -> /etc/yum.conf`
 
-![Linux 软链接](https://img.xicuodev.top/2026/03/e5c1dbace68a5e3a0844c2a3d4672645.png "Linux 软链接")
+![Linux 软链接](https://img.xicuodev.top/2026/03/e5c1dbace68a5e3a0844c2a3d4672645.webp "Linux 软链接")

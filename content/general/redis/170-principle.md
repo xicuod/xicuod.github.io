@@ -12,7 +12,7 @@ redis中所有顶层数据结构都是字符串或字符串的集合；字符串
 
 因此red自己实现了简单动态字符串 simple dynamic string, sds；结构体，len 已用的字节，alloc 分配的字节（不含`\0`），flags 型号；
 
-![动态字符串 sds](https://img.xicuodev.top/2026/04/8861b106558b8b131fcfa535ae3d63c0.png "动态字符串 sds")
+![动态字符串 sds](https://img.xicuodev.top/2026/04/8861b106558b8b131fcfa535ae3d63c0.webp "动态字符串 sds")
 
 - 如果新字符串小于1M，则新空间为扩展后字符串长度的两倍+1；
 - 如果新字符串于1M，则新空间为扩展后字符串度+1M+1；
@@ -76,7 +76,7 @@ dictentry {
 
 c中的union联合体 共用体，一种特殊的结构体，两个成员不会同时有效，用于多个取其一的场景；next指向下一个entry，哈希冲突时的单向链表；
 
-![dictht 结构](https://img.xicuodev.top/2026/04/270d3816db69dc0d3fec69b7ea6f35ea.png "dictht 结构")
+![dictht 结构](https://img.xicuodev.top/2026/04/270d3816db69dc0d3fec69b7ea6f35ea.webp "dictht 结构")
 
 添加entry时，先根据key算hash，再hash & sizemask取模算索引；索引相等说明哈希冲突，头插法插入单向链表，性能好，尾插法要遍历链表（然而找key是否已经存在也要遍历，其实没省多少性能；且并发头插会造成死链，但redis的单线程又弥补了这一点）；
 
@@ -94,7 +94,7 @@ dict {
 }
 ```
 
-![dict 结构](https://img.xicuodev.top/2026/04/81eac69ab3de0ab1c652a33617b592cd.png "dict 结构")
+![dict 结构](https://img.xicuodev.top/2026/04/81eac69ab3de0ab1c652a33617b592cd.webp "dict 结构")
 
 #### dict扩容与收缩
 

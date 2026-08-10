@@ -37,9 +37,9 @@ title: java.lang.String
   - Java 6 ​及以前：复制堆中串对象到串池。串池在永久代，永久代空间有限，过多使用 `intern()` 会导致 `OOM`。
   - Java 7 及以后：串池仅存放串对象的引用。串池就在堆内存，不必重复创建对象，只需把引用纳入池中即可。
 
-![Java 6 字符串 intern 方法行为](https://img.xicuodev.top/2026/03/1162f2da60e2ed264e34953854b32b6c.png "Java 6 字符串 intern 方法行为")
+![Java 6 字符串 intern 方法行为](https://img.xicuodev.top/2026/03/1162f2da60e2ed264e34953854b32b6c.webp "Java 6 字符串 intern 方法行为")
 
-![Java 7 字符串 intern 方法行为](https://img.xicuodev.top/2026/03/a621beb316a351061bbb14258c848956.png "Java 7 字符串 intern 方法行为")
+![Java 7 字符串 intern 方法行为](https://img.xicuodev.top/2026/03/a621beb316a351061bbb14258c848956.webp "Java 7 字符串 intern 方法行为")
 
 [^1]: 但 C# 可以，它重载了 `string` 类的元素访问操作符 `[]`。
 

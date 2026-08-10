@@ -30,7 +30,7 @@ while(it.hasNext()) {
 
 迭代器底层：
 
-![Java 迭代器底层](https://img.xicuodev.top/2026/02/496501bba353bb87bc37d796dfeba9df.png "Java 迭代器底层")
+![Java 迭代器底层](https://img.xicuodev.top/2026/02/496501bba353bb87bc37d796dfeba9df.webp "Java 迭代器底层")
 
 - 具体集合的内部类 `Itr` 实现 `Iterator` 接口：
 

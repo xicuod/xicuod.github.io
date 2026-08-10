@@ -58,7 +58,7 @@ public class Thread {
 
 各个状态的转换，如下图所示：
 
-![1571652681276](https://img.xicuodev.top/2026/03/5965bc3f0f53a821bcf586a92dd38d62.png)
+![1571652681276](https://img.xicuodev.top/2026/03/5965bc3f0f53a821bcf586a92dd38d62.webp)
 
 ### 1.2 案例演示
 
@@ -330,7 +330,7 @@ Object obj = new Object();
 
 在整个过程中，都不需要创建新的线程，而是循环使用这些已经存在的线程。
 
-![1571655104091](https://img.xicuodev.top/2026/03/36261faffbc417b259c84b5ed1270bec.png)
+![1571655104091](https://img.xicuodev.top/2026/03/36261faffbc417b259c84b5ed1270bec.webp)
 
 #### 2.2.2 代码实现
 
@@ -844,7 +844,7 @@ public class ThreadPoolExecutorDemo01 {
 
 接下来我们就来研究一下线程池的工作原理，如下图所示
 
-![1571732060388](https://img.xicuodev.top/2026/03/b5d9afeb1df5b6bccdd8f22a32a7236f.png)
+![1571732060388](https://img.xicuodev.top/2026/03/b5d9afeb1df5b6bccdd8f22a32a7236f.webp)
 
 当我们通过 submit 方法向线程池中提交任务的时候，具体的工作流程如下：
 
@@ -897,35 +897,35 @@ public class ThreadPoolExecutorDemo01 {
 
 初次 debug 方式启动线程，查看变量值
 
-![1571735388181](https://img.xicuodev.top/2026/03/11a8a0403593fd92a6ffc461ec949c62.png)
+![1571735388181](https://img.xicuodev.top/2026/03/11a8a0403593fd92a6ffc461ec949c62.webp)
 
 由于此时还没有提交任务，因此线程池中的线程数量为 0，工作队列的任务数量也为 0；提交一个任务
 
-![1571735465100](https://img.xicuodev.top/2026/03/3ed78d09f8ef057e1ec9a298e2427836.png)
+![1571735465100](https://img.xicuodev.top/2026/03/3ed78d09f8ef057e1ec9a298e2427836.webp)
 
 再次查看各个值的变化
 
-![1571735607347](https://img.xicuodev.top/2026/03/6f78638b370b81c7486d3c59d98338db.png)
+![1571735607347](https://img.xicuodev.top/2026/03/6f78638b370b81c7486d3c59d98338db.webp)
 
 再次提交一个任务
 
-![1571735465100](https://img.xicuodev.top/2026/03/3ed78d09f8ef057e1ec9a298e2427836.png)
+![1571735465100](https://img.xicuodev.top/2026/03/3ed78d09f8ef057e1ec9a298e2427836.webp)
 
 再次查看各个值的变化
 
-![1571735715977](https://img.xicuodev.top/2026/03/3f3e1c0493d2318aefeae253715b16c5.png)
+![1571735715977](https://img.xicuodev.top/2026/03/3f3e1c0493d2318aefeae253715b16c5.webp)
 
 此时会把第二个任务存储到工作队列中，因此工作队列的值为 1 了。再次提交一个任务
 
-![1571735465100](https://img.xicuodev.top/2026/03/3ed78d09f8ef057e1ec9a298e2427836.png)
+![1571735465100](https://img.xicuodev.top/2026/03/3ed78d09f8ef057e1ec9a298e2427836.webp)
 
 再次查看各个值的变化
 
-![1571735904991](https://img.xicuodev.top/2026/03/95677c0f74287aaca65c6a1f0abe08f8.png)
+![1571735904991](https://img.xicuodev.top/2026/03/95677c0f74287aaca65c6a1f0abe08f8.webp)
 
 此时 3 个任务都以及提交完毕，断点跳过。经过 20s 以后，再次查看该进程中的线程。
 
-![1571736824748](https://img.xicuodev.top/2026/03/c85eb710d31da8992dd4ee80261fbb89.png)
+![1571736824748](https://img.xicuodev.top/2026/03/c85eb710d31da8992dd4ee80261fbb89.webp)
 
 我们发现非核心线程已经被线程池回收了。
 
@@ -1179,13 +1179,13 @@ Java 内存模型 (Java Memory Model) 描述了 Java 程序中各种变量 (线�
 
    内存完成。
 
-![1571743818653](https://img.xicuodev.top/2026/03/f7672cf6097281cf3445f0bee5124922.png)
+![1571743818653](https://img.xicuodev.top/2026/03/f7672cf6097281cf3445f0bee5124922.webp)
 
 ### 3.3 问题分析
 
 了解了一下 JMM, 那么接下来我们就来分析一下上述程序产生问题的原因。
 
-![1571744627663](https://img.xicuodev.top/2026/03/2e49afbb5097c0ddeab31cece2cc5f0d.png)
+![1571744627663](https://img.xicuodev.top/2026/03/2e49afbb5097c0ddeab31cece2cc5f0d.webp)
 
 产生问题的流程分析：
 
@@ -1361,7 +1361,7 @@ flag=true
 
 工作原理说明
 
-![1571746088704](https://img.xicuodev.top/2026/03/42432fa4a3b6f5a9ce9f43701f7ec557.png)
+![1571746088704](https://img.xicuodev.top/2026/03/42432fa4a3b6f5a9ce9f43701f7ec557.webp)
 
 执行流程分析
 
@@ -1465,7 +1465,7 @@ count++ 操作包含 3 个步骤：
 
 count++ 操作不是一个原子性操作，也就是说在某一个时刻对某一个操作的执行，有可能被其他的线程打断。
 
-![1571794778139](https://img.xicuodev.top/2026/03/30322adde08f5bb4908136b9eeac4e70.png)
+![1571794778139](https://img.xicuodev.top/2026/03/30322adde08f5bb4908136b9eeac4e70.webp)
 
 产生问题的执行流程分析：
 
@@ -1925,31 +1925,31 @@ CAS 的全成是： Compare And Swap (比较再交换); 是现代 CPU 广泛支�
 
 1. 在内存值 V 当中，存储着值为 10 的变量。
 
-![1571817059527](https://img.xicuodev.top/2026/03/26661af8512f95c07d72201d1e43ae7e.png)
+![1571817059527](https://img.xicuodev.top/2026/03/26661af8512f95c07d72201d1e43ae7e.webp)
 
 2. 此时线程 1 想要把变量的值增加 1。对线程 1 来说，旧的预期值 A = 10 ，要修改的新值 B = 11。
 
-![1571817085047](https://img.xicuodev.top/2026/03/56e1af8939512613ebc8204c0da2f5b1.png)
+![1571817085047](https://img.xicuodev.top/2026/03/56e1af8939512613ebc8204c0da2f5b1.webp)
 
 3. 在线程 1 要提交更新之前，另一个线程 2 抢先一步，把内存值 V 中的变量值率先更新成了 11。
 
-![1571817628904](https://img.xicuodev.top/2026/03/ac0f51ce8142530e7e8c84d5800bee68.png)
+![1571817628904](https://img.xicuodev.top/2026/03/ac0f51ce8142530e7e8c84d5800bee68.webp)
 
 4. 线程 1 开始提交更新，首先进行 A 和内存值 V 的实际值比较 (Compare)，发现 A 不等于 V 的值，提交失败。
 
-![1571818176635](https://img.xicuodev.top/2026/03/7e8b02709700d453bf8b72fa087004bf.png)
+![1571818176635](https://img.xicuodev.top/2026/03/7e8b02709700d453bf8b72fa087004bf.webp)
 
 5. 线程 1 重新获取内存值 V 作为当前 A 的值，并重新计算想要修改的新值。此时对线程 1 来说，A = 11，B = 12。这个重新尝试的过程被称为**自旋**。
 
-![1571818465276](https://img.xicuodev.top/2026/03/d5ec1a8462f7b212043104f8fd5d22a9.png)
+![1571818465276](https://img.xicuodev.top/2026/03/d5ec1a8462f7b212043104f8fd5d22a9.webp)
 
 6. 这一次比较幸运，没有其他线程改变 V 的值。线程 1 进行 Compare，发现 A 和 V 的值是相等的。
 
-![1571818597998](https://img.xicuodev.top/2026/03/d707eb4b705158f713eead79be975c51.png)
+![1571818597998](https://img.xicuodev.top/2026/03/d707eb4b705158f713eead79be975c51.webp)
 
 7. 线程 1 进行 SWAP，把内存 V 的值替换为 B，也就是 12。
 
-![1571818747880](https://img.xicuodev.top/2026/03/f8c121544be913fdf4b3d00e8ae8ce0b.png)
+![1571818747880](https://img.xicuodev.top/2026/03/f8c121544be913fdf4b3d00e8ae8ce0b.webp)
 
 举例说明：这好比春节的时候抢火车票，下手快的会抢先买到票，而下手慢的可以再次尝试，直到买到票。
 
@@ -2235,7 +2235,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
 对应的结构如下图所示
 
-![1571905221097](https://img.xicuodev.top/2026/03/238deeb257742b56c56430f11374c2e6.png)
+![1571905221097](https://img.xicuodev.top/2026/03/238deeb257742b56c56430f11374c2e6.webp)
 
 Hashtable 保证线程安全性的是使用方法全局锁进行实现的。在线程竞争激烈的情况下 HashTable 的效率非常低下。因为当一个线程访问 HashTable 的同步方法，其他线程也访问 HashTable
 
@@ -2355,7 +2355,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
 对应的结构如下图所示
 
-![1571880094854](https://img.xicuodev.top/2026/03/95f9e5c7247475ec16681b312a4c65d3.png)
+![1571880094854](https://img.xicuodev.top/2026/03/95f9e5c7247475ec16681b312a4c65d3.webp)
 
 简单来讲，就是 ConcurrentHashMap 比 HashMap 多了一次 hash 过程，第 1 次 hash 定位到 Segment，第 2 次 hash 定位到 HashEntry，然后链表搜索找到指定节点。在进行写操作时，只需锁住写
 
@@ -2500,7 +2500,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V> implements Concurre
 
 对应的结构如下图
 
-![1571901607504](https://img.xicuodev.top/2026/03/434a45bd0c1b9c1d18fa8621f6d77e24.png)
+![1571901607504](https://img.xicuodev.top/2026/03/434a45bd0c1b9c1d18fa8621f6d77e24.webp)
 
 **ConcurrentHashMap 的 put 方法源码分析**
 

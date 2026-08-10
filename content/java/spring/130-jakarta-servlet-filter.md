@@ -21,4 +21,4 @@ title: JavaWeb 过滤器
 
 - 过滤器执行顺序：注解配置的 `Filter` 的优先级是按照过滤器类名 (字符串) 的自然排序。
 
-![过滤器链](https://img.xicuodev.top/2026/03/c0d2fa7da7ad098354f746f4f49c500c.png "过滤器链")
+![过滤器链](https://img.xicuodev.top/2026/03/c0d2fa7da7ad098354f746f4f49c500c.webp "过滤器链")

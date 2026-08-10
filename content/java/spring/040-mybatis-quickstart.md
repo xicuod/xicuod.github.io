@@ -86,7 +86,7 @@ mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
 
 像 `delete from book where id = ?` 这样的 SQL 语句称为预编译 SQL；预编译 SQL 的好处：性能更高 (可使用 MySQL 缓存，不必重复编译)、更安全 (防止 SQL 注入)；SQL 注入：通过操作输入的数据来修改事先定义好的 SQL 语句，以达到执行代码攻击服务器的方法。
 
-![MyBatis 预编译 SQL 性能更高](https://img.xicuodev.top/2026/03/e4d0fb6e25c4c2111acad3cebddde223.png "MyBatis 预编译 SQL 性能更高")
+![MyBatis 预编译 SQL 性能更高](https://img.xicuodev.top/2026/03/e4d0fb6e25c4c2111acad3cebddde223.webp "MyBatis 预编译 SQL 性能更高")
 
 ## MyBatis `#` `$` 参数占位符
 
@@ -200,7 +200,7 @@ XML 映射文件规范：
 - XML 映射文件中 SQL 语句元素的 id 属性与 Mapper 接口中的方法名一致。
 - XML 映射文件中 SQL 语句元素的 resultType 属性是单条记录要封装的类型的全限定名，而不是数组集合类型。
 
-![MyBatis XML 映射文件规范](https://img.xicuodev.top/2026/03/130e9a1ea5ed9b7fae9738bee18ce012.png "MyBatis XML 映射文件规范")
+![MyBatis XML 映射文件规范](https://img.xicuodev.top/2026/03/130e9a1ea5ed9b7fae9738bee18ce012.webp "MyBatis XML 映射文件规范")
 
 可以在 [MyBatis 中文网](https://mybatis.net.cn/getting-started.html)找到 XML 映射文件的 DTD 约束的导入代码：
 

@@ -37,7 +37,7 @@ title: java.util.HashSet
    - JDK 8 以后：新元素直接挂在老元素下面，效率更高
 6. JDK 8 以后新增：当链表长度大于 8 而且数组长度大于等于 64 时，把过长的链表转为红黑树，提高查找效率
 
-![JDK 8 以后的 HashSet 底层实现](https://img.xicuodev.top/2026/02/bd886cb182dc1661cd658f57bbff399d.png "JDK 8 以后的 HashSet 底层实现")
+![JDK 8 以后的 HashSet 底层实现](https://img.xicuodev.top/2026/02/bd886cb182dc1661cd658f57bbff399d.webp "JDK 8 以后的 HashSet 底层实现")
 
 常见问题：
 

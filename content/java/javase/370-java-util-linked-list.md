@@ -28,4 +28,4 @@ title: java.util.LinkedList
   5. 之后的节点：旧的尾节点 `l.next` 指向 `newNode`
   6. 更新长度 `size` 和 `modCount`
 
-![LinkedList 底层-插入元素](https://img.xicuodev.top/2026/02/0bd6cb8dd73d54bf33281f01d2690c09.png "LinkedList 底层-插入元素")
+![LinkedList 底层-插入元素](https://img.xicuodev.top/2026/02/0bd6cb8dd73d54bf33281f01d2690c09.webp "LinkedList 底层-插入元素")

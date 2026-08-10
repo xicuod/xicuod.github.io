@@ -245,7 +245,7 @@ cpu不再执行当前线程，转而执行另一个线程的原因有：线程�
 
 从操作系统层面，线程有5个状态：新建（初始）、就绪（可运行）、运行、阻塞、死亡（终止）。
 
-![线程的生命周期](https://img.xicuodev.top/2026/03/71b514a07834973350b05e344eacc88d.png "线程的生命周期")
+![线程的生命周期](https://img.xicuodev.top/2026/03/71b514a07834973350b05e344eacc88d.webp "线程的生命周期")
 
 在java代码中，枚举`java.lang.Thread.State`定义了thread对象的6个状态：
 
@@ -258,4 +258,4 @@ cpu不再执行当前线程，转而执行另一个线程的原因有：线程�
 
 线程进入运行态时，JVM 就把它交给操作系统管理了，因此java api中不定义运行态；blocked waiting timed_waiting都是java api层面对阻塞状态的细分，详见下文<!-- TODO Java的3种阻塞状态 -->；
 
-![线程生命周期的3种阻塞态](https://img.xicuodev.top/2026/03/3986e47d0cb24c16ff33d54e0e616c95.png "线程生命周期的3种阻塞态")
+![线程生命周期的3种阻塞态](https://img.xicuodev.top/2026/03/3986e47d0cb24c16ff33d54e0e616c95.webp "线程生命周期的3种阻塞态")

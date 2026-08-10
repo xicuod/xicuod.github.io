@@ -40,8 +40,8 @@ ArrayList<String> list = new ArrayList<>();
 
 插入第一个元素 (创建长度为 10 的数组)：
 
-![ArrayList 底层-插入第一个元素](https://img.xicuodev.top/2026/02/75fce3f3b3cf3f1cf6bf7f2791d1f5d5.png "ArrayList 底层-插入第一个元素")
+![ArrayList 底层-插入第一个元素](https://img.xicuodev.top/2026/02/75fce3f3b3cf3f1cf6bf7f2791d1f5d5.webp "ArrayList 底层-插入第一个元素")
 
 插入第 11 个元素 (扩容为 15)：
 
-![ArrayList 底层-插入第11个元素](https://img.xicuodev.top/2026/02/21a8254f24998c42568b8349592e7202.png "ArrayList 底层-插入第 11 个元素")
+![ArrayList 底层-插入第11个元素](https://img.xicuodev.top/2026/02/21a8254f24998c42568b8349592e7202.webp "ArrayList 底层-插入第 11 个元素")

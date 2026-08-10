@@ -4,7 +4,7 @@ slug: java-jvm-jre-jdk
 title: JVM、JRE 和 JDK
 ---
 
-![JVM、JRE 和 JDK](https://img.xicuodev.top/2026/02/b59d51aae75cb677746e439fd0b693ff.png "JVM、JRE 和 JDK")
+![JVM、JRE 和 JDK](https://img.xicuodev.top/2026/02/b59d51aae75cb677746e439fd0b693ff.webp "JVM、JRE 和 JDK")
 
 - JVM (Java Virtual Machine, Java 虚拟机)：[Java 二进制字节码]({{% sref "jvm-class-file-structure" %}})的运行环境。
   - `jstack` 堆栈跟踪工具

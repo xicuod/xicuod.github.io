@@ -172,13 +172,13 @@ class Student
 ## 乘除余操作符 `x*y`  `x/y`  `x%y`
 
 * 一些特定乘法运算得到的特殊值表 (NaN 是 Not a Number 非数字)
-	![](https://img.xicuodev.top/2026/04/4b82f9092ce885919ca7869b6ff071db.png)
+	![](https://img.xicuodev.top/2026/04/4b82f9092ce885919ca7869b6ff071db.webp)
 
 * 一些特定除法运算得到的特殊值表
-	![](https://img.xicuodev.top/2026/04/aa10cffafe6a9d00569c40c86de9a6fd.png)
+	![](https://img.xicuodev.top/2026/04/aa10cffafe6a9d00569c40c86de9a6fd.webp)
 
 * 一些特定余数运算得到的特殊值表
-	![](https://img.xicuodev.top/2026/04/1ca8f0f670b94a79451a8ea2ffbbee7c.png)
+	![](https://img.xicuodev.top/2026/04/1ca8f0f670b94a79451a8ea2ffbbee7c.webp)
 
 * 两个不同宽度的类型的数字相乘、相除或求余时，会发生**类型提升**，即小尺寸的数字类型会隐式转换为大尺寸的数字类型。
 

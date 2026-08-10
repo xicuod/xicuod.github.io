@@ -41,7 +41,7 @@ title: Spring 拦截器
 - `/depts/*`：匹配 `/depts` 下的一级路径 `/depts/1`，不能匹配 `/depts/1/2`、`/depts`
 - `/depts/**`：匹配 `/depts` 下的任意级路径，`/depts`、`/depts/1`、`/depts/1/2`，不能匹配 `/emps/1`
 
-![拦截器执行流程](https://img.xicuodev.top/2026/03/e559dc31a7114ebf2b52d51a741e21f4.png "拦截器执行流程")
+![拦截器执行流程](https://img.xicuodev.top/2026/03/e559dc31a7114ebf2b52d51a741e21f4.webp "拦截器执行流程")
 
 过滤器和拦截器的区别：
 

@@ -19,7 +19,7 @@ title: SpringBootWeb 用户登录
 - 登录标记：用户登录成功之后，每一次请求中，都可以获取到该标记。实现：会话技术。
 - 统一拦截： [Web 过滤器]()、[Web 拦截器]()
 
-![Web 登录校验](https://img.xicuodev.top/2026/03/895a8c84cbfed298f44970c9c600ca50.png "Web 登录校验")
+![Web 登录校验](https://img.xicuodev.top/2026/03/895a8c84cbfed298f44970c9c600ca50.webp "Web 登录校验")
 
 ### 会话技术
 
@@ -37,7 +37,7 @@ title: SpringBootWeb 用户登录
     - Cookie 不能跨域
       - 跨域区分三个维度：协议、IP / 域名、端口，任何一个部分不同都是跨域
 
-![Web 会话跟踪 - Cookie](https://img.xicuodev.top/2026/03/6c991df09dece93b000f1db1914e16ff.png "Web 会话跟踪 - Cookie")
+![Web 会话跟踪 - Cookie](https://img.xicuodev.top/2026/03/6c991df09dece93b000f1db1914e16ff.webp "Web 会话跟踪 - Cookie")
 
 - 服务端会话跟踪技术：Session
   - Cookie 只存 Session 的 id，数据都保存在服务端的 Session 对象中
@@ -45,7 +45,7 @@ title: SpringBootWeb 用户登录
     - 服务器集群环境下无法直接使用 Session
     - 包括 Cookie 的缺点
 
-![Web 会话跟踪 - Session](https://img.xicuodev.top/2026/03/2200f9276e522bfe04a1d7e4ca44cd4e.png "Web 会话跟踪 - Session")
+![Web 会话跟踪 - Session](https://img.xicuodev.top/2026/03/2200f9276e522bfe04a1d7e4ca44cd4e.webp "Web 会话跟踪 - Session")
 
 - 令牌技术：字符串，用户身份标识，还可以存储共享数据
   - 支持 PC 端、移动端
@@ -122,4 +122,4 @@ JWT 应用场景：登录认证
 - 在请求到达服务端后，对令牌统一拦截，校验令牌，令牌存在且合法才放行请求
 - 特别地，对于登录请求，不校验 JWT 令牌，这是令牌的生成入口
 
-![Web 登录校验流程图](https://img.xicuodev.top/2026/03/b0cc00a751d6b5bdcbf8506dbfc9807f.png "Web 登录校验流程图")
+![Web 登录校验流程图](https://img.xicuodev.top/2026/03/b0cc00a751d6b5bdcbf8506dbfc9807f.webp "Web 登录校验流程图")

@@ -115,7 +115,7 @@ try (FileOutputStream fo = new FileOutputStream("assets/c.txt")) {
 } /* 自动finally回收资源 */
 ```
 
-![IO 流 try-catch 异常处理的 3 种方案](https://img.xicuodev.top/2026/03/450282d4def9558bfdf5c9158f47f09a.png "IO 流 try-catch 异常处理的 3 种方案")
+![IO 流 try-catch 异常处理的 3 种方案](https://img.xicuodev.top/2026/03/450282d4def9558bfdf5c9158f47f09a.webp "IO 流 try-catch 异常处理的 3 种方案")
 
 ## 字符流
 
@@ -191,7 +191,7 @@ while ((len = bis.read(buf)) != EOF) { /* do something with buf & len */ }
 
 字节缓冲流提高效率的原理：
 
-![字节缓冲流提高效率的原理](https://img.xicuodev.top/2026/03/42f0a6b86e60e64df3c887784b6a5dda.png "字节缓冲流提高效率的原理")
+![字节缓冲流提高效率的原理](https://img.xicuodev.top/2026/03/42f0a6b86e60e64df3c887784b6a5dda.webp "字节缓冲流提高效率的原理")
 
 - 倒手变量 `b` 在内存中搬运数据，节约了读写硬盘的时间。
 - 若要提高复制效率，就要用字节数组 `byte[]` 做倒手变量，数组越长效率越高。

@@ -49,7 +49,7 @@ AOP 核心概念：
 
 动态代理，非侵入式的增强原始方法的功能，依赖注入时改为注入代理对象。
 
-![Spring AOP 执行流程](https://img.xicuodev.top/2026/03/0a09999d15e530bd70041d033b39e12d.png "Spring AOP 执行流程")
+![Spring AOP 执行流程](https://img.xicuodev.top/2026/03/0a09999d15e530bd70041d033b39e12d.webp "Spring AOP 执行流程")
 
 ## Spring AOP 通知类型
 

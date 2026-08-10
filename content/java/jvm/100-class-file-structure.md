@@ -12,11 +12,11 @@ title: JVM 类文件结构
 
 ## `.class` 类文件结构
 
-![类文件结构](https://img.xicuodev.top/2026/02/781042672dc928ea3052f67ad4e99ad5.png "类文件结构")
+![类文件结构](https://img.xicuodev.top/2026/02/781042672dc928ea3052f67ad4e99ad5.webp "类文件结构")
 
 ## 魔数和版本信息
 
-![类文件结构-魔数和版本信息](https://img.xicuodev.top/2026/02/0245d894c47a7c186995d513be002b10.png "类文件结构-魔数和版本信息")
+![类文件结构-魔数和版本信息](https://img.xicuodev.top/2026/02/0245d894c47a7c186995d513be002b10.webp "类文件结构-魔数和版本信息")
 
 * 魔数 `u4 maigc`：开头的固定4字节 `CA FE BA BE`，标识文件类型为Java类文件，可供JVM识别并解析
   * `CA FE BA BE` = cafe babe = 咖啡宝贝，Java 开发工程师的冷幽默

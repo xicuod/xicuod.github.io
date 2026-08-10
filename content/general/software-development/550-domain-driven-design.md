@@ -558,7 +558,7 @@ RabbitMQ 有很多工作模式，常用的一个模式是路由模式（routing�
 - 消费者从队列中获取消息。
 - 交换机和队列都位于 RabbitMQ 服务器内部。
 
-![RabbitMQ的路由模式](https://img.xicuodev.top/2026/05/01a6deb7ebe307f354ecd665fc692a0d.png "RabbitMQ的路由模式")
+![RabbitMQ的路由模式](https://img.xicuodev.top/2026/05/01a6deb7ebe307f354ecd665fc692a0d.webp "RabbitMQ的路由模式")
 
 路由模式的优点：即使消费者不在线，消费者相关的消息也会保存在队列中，当消费者上线后，消费者就可以从队列中获取到离线期间错过的消息。
 
@@ -621,7 +621,7 @@ builder.UseEventBus();
 - 内层的部分比外层的部分更加的抽象 → 内层表达抽象，外层表达实现。越往里越抽象，越往外越具体。
 - 外层的代码只能调用内层的代码，内层的代码可以通过依赖注入的形式来间接调用外层的代码（通过依赖注入在运行时决定内层接口所依赖的外层实现）。
 
-![洋葱架构](https://img.xicuodev.top/2026/05/a582aef8268074d627d9ba727a33966a.png "洋葱架构")
+![洋葱架构](https://img.xicuodev.top/2026/05/a582aef8268074d627d9ba727a33966a.webp "洋葱架构")
 
 举一个简单的例子：读取文件然后发送邮件。新建一个接口类库 `Intf1`，里面包含 `EmailInfo` 实体类、`IEmailSender` 类、`IEmailDataProvider` 类和 `MyBizCode1` 业务类；再新建一个控制台项目 `ConsoleApp1`，里面包含 `MyEmailDataProvider1` 实现类、`MyEmailDataProviderMock1` 模拟类、`MyEmailSender` 实现类和 `Program` 程序入口类。
 
@@ -671,7 +671,7 @@ Users.WebAPI -----
 
 ### 项目结构示例
 
-![洋葱架构示例项目结构](https://img.xicuodev.top/2026/05/d5ba3c1f28975f9fffb1ef34720e18fb.png "洋葱架构示例项目结构")
+![洋葱架构示例项目结构](https://img.xicuodev.top/2026/05/d5ba3c1f28975f9fffb1ef34720e18fb.webp "洋葱架构示例项目结构")
 
 像 `HashHelper` 这样的工具类最好放到基础设施 `Users.Infrastructure` 中，图中放到 `Users.Domain` 不妥。其实图中还有很多严格来说放错了地方的类，但这只是个简化版的示例，主要目的还是理解洋葱架构。
 

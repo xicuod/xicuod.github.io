@@ -91,7 +91,7 @@ aof重写也是基于fork的：参考[【redis】AOF 基本工作原理、工作
 - 子进程完成后，发信号通过主进程，让它把aof重写缓冲区（子进程访问不到）堆积的新命令追加到新aof文件中；
 - 最后，主进程用新aof文件覆盖旧aof。
 
-![老aof重写流程](https://img.xicuodev.top/2026/04/645292fc11001d5b4b0fb0de5f34af37.png "老aof重写流程")
+![老aof重写流程](https://img.xicuodev.top/2026/04/645292fc11001d5b4b0fb0de5f34af37.webp "老aof重写流程")
 
 关于同时写入两个缓冲区：主进程原本就是写入aof缓冲区实现的aof持久化，这是正常流程的保持，而不是什么新流程；而写入aof重写缓冲区是用于同步新aof文件生成期间的堆积命令，是新流程。
 
@@ -179,7 +179,7 @@ OK
 
 主从集群第一次同步是全量同步，分为三个阶段：请求同步、通过 RDB 同步和同步 RDB 同步期间积压的命令。
 
-![全量同步的三个阶段](https://img.xicuodev.top/2026/03/a98149d2f5750977fa0ace495816fc0d.png "全量同步的三个阶段")
+![全量同步的三个阶段](https://img.xicuodev.top/2026/03/a98149d2f5750977fa0ace495816fc0d.webp "全量同步的三个阶段")
 
 这里的第三阶段写的复制积压缓冲区 `repl_baklog` 有误，实际是复制缓冲区 `repl_buf`。详见[第三阶段](#全量同步的第三阶段-同步积压)。
 
@@ -202,7 +202,7 @@ OK
 2. 主节点判断请求 replid 是否跟自己的一致
 3. 发现不一致，则从节点是第一次同步，主节点返回自己的 replid 和 offset，即数据版本信息，然后开始全量同步
 
-![全量同步的第一阶段](https://img.xicuodev.top/2026/03/80cfe5990738f170f5f2d2f94f2e126c.png "全量同步的第一阶段")
+![全量同步的第一阶段](https://img.xicuodev.top/2026/03/80cfe5990738f170f5f2d2f94f2e126c.webp "全量同步的第一阶段")
 
 #### 全量同步的第三阶段 同步积压
 
@@ -240,7 +240,7 @@ sequenceDiagram
 
 增量同步基于**复制积压缓冲区**（replication backlog），这是主节点在内存维护的一个环形缓冲区（circular buffer），本质是一个数组。无论何时，只要主节点在写数据，就会把这些命令同步写入这个缓冲区。当它写满时，最新的命令会覆盖最旧的命令。可通过 `repl-backlog-size` 配置它的大小，默认 1 MiB。
 
-![增量同步](https://img.xicuodev.top/2026/03/370533fd6e1438e93cbff2d3898dbb97.png "增量同步")
+![增量同步](https://img.xicuodev.top/2026/03/370533fd6e1438e93cbff2d3898dbb97.webp "增量同步")
 
 当从节点请求增量同步时，主节点会看它的 offset 在 `repl_backlog` 里面是否还在，如果还没被更新的命令覆盖，就把更新的命令同步到从节点；如果主节点写得太快导致直接把从节点套圈了，那么套出来的那些命令在 `repl_backlog` 就再也找不到了，主节点只好再发起一次全量同步。因此，增量同步时触发全量同步的阈值是 `repl-backlog-size`。
 
@@ -616,7 +616,7 @@ redis-server ./conf/7002.conf
 
 下面是手动故障转移的时序图：
 
-![failover 时序图](https://img.xicuodev.top/2026/04/7fe174c76a3ae1e61c771b01e3d237ea.png "failover 时序图")
+![failover 时序图](https://img.xicuodev.top/2026/04/7fe174c76a3ae1e61c771b01e3d237ea.webp "failover 时序图")
 
 `cluster failover` 有三种参数：
 - 缺省：等待 master 同步完 offset 再切换（推荐，无感）

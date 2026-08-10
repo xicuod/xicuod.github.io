@@ -48,4 +48,4 @@ title: Java 数组
 
 数组作为引用类型，也是堆中存对象，栈中存地址。
 
-![Java 数组的内存布局](https://img.xicuodev.top/2026/02/d583519afc4bbd62ede516839c261046.png "Java 数组的内存布局")
+![Java 数组的内存布局](https://img.xicuodev.top/2026/02/d583519afc4bbd62ede516839c261046.webp "Java 数组的内存布局")

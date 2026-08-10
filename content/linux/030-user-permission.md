@@ -43,7 +43,7 @@ title: Linux 用户和权限
 
 Linux 可以配置多个用户、多个用户组，一个用户可以加入多个用户组中。
 
-![Linux 超级管理员、用户和用户组](https://img.xicuodev.top/2026/03/5b37756bd3228d436b9895366bf2b649.png "Linux 超级管理员、用户和用户组")
+![Linux 超级管理员、用户和用户组](https://img.xicuodev.top/2026/03/5b37756bd3228d436b9895366bf2b649.webp "Linux 超级管理员、用户和用户组")
 
 Linux 中关于权限的管控级别有 2 个级别，分别是：
 

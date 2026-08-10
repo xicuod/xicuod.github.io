@@ -11,7 +11,7 @@ title: SpringBootWeb 请求响应
 
 ## DispatcherServlet 请求-响应类
 
-![DispatcherServlet](https://img.xicuodev.top/2026/03/a39de72ce8d880ad8a59ab40610803b8.png "DispatcherServlet")
+![DispatcherServlet](https://img.xicuodev.top/2026/03/a39de72ce8d880ad8a59ab40610803b8.webp "DispatcherServlet")
 
 - `DispatcherServlet` 类：Spring Boot 底层的前端控制器，实现 Java EE `Servlet` 接口的请求响应规范
 - `HttpServletRequest` 请求类：获取请求数据

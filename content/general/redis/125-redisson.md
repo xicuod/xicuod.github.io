@@ -117,7 +117,7 @@ Redisson 获取锁的 lua 脚本比较反常，成功了返回 `null`，失败�
 >
 > 这里，锁有 `ttl` 意味着锁在其他人手上。Redisson 获取锁的 lua 脚本包含可重入的逻辑，所以获取失败返回的一定是别人锁的 `ttl`。
 
-![Redisson 可重试锁](https://img.xicuodev.top/2026/03/37c0b1309b3a4b7d648c630975b55b5c.png "Redisson 可重试锁")
+![Redisson 可重试锁](https://img.xicuodev.top/2026/03/37c0b1309b3a4b7d648c630975b55b5c.webp "Redisson 可重试锁")
 
 ### 上锁成功时的看门狗机制
 

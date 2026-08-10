@@ -20,11 +20,11 @@ yum install -y gcc tcl
 
 然后将课前资料提供的 Redis 安装包上传到虚拟机的任意目录：
 
-![image-20210629114325516](https://img.xicuodev.top/2026/04/0137b9050ca3c406980cd8846afebeb0.png)
+![image-20210629114325516](https://img.xicuodev.top/2026/04/0137b9050ca3c406980cd8846afebeb0.webp)
 
 例如，我放到了 /tmp 目录：
 
-![image-20210629114830642](https://img.xicuodev.top/2026/04/cc3d38b5d1eea592b4ddffc1630ca1cf.png)
+![image-20210629114830642](https://img.xicuodev.top/2026/04/cc3d38b5d1eea592b4ddffc1630ca1cf.webp)
 
 解压缩：
 
@@ -34,7 +34,7 @@ tar -xzf redis-6.2.4.tar.gz
 
 解压后：
 
-![image-20210629114941810](https://img.xicuodev.top/2026/04/3cc0bc31d310ebf23d00d4ebadb99894.png)
+![image-20210629114941810](https://img.xicuodev.top/2026/04/3cc0bc31d310ebf23d00d4ebadb99894.webp)
 
 进入 redis 目录：
 
@@ -79,7 +79,7 @@ redis-cli shutdown
 
 我们搭建的主从集群结构如图：
 
-![image-20210630111505799](https://img.xicuodev.top/2026/04/3d5d3a925978f61920a806d8e18c1743.png)
+![image-20210630111505799](https://img.xicuodev.top/2026/04/3d5d3a925978f61920a806d8e18c1743.webp)
 
 共包含三个节点，一个主节点，两个从节点。
 
@@ -108,7 +108,7 @@ mkdir 7001 7002 7003
 
 如图：
 
-![image-20210630113929868](https://img.xicuodev.top/2026/04/4d44682cad07135cf59959cde48627ac.png)
+![image-20210630113929868](https://img.xicuodev.top/2026/04/4d44682cad07135cf59959cde48627ac.webp)
 
 2）恢复原始配置
 
@@ -193,7 +193,7 @@ redis-server 7003/redis.conf
 
 启动后：
 
-![image-20210630183914491](https://img.xicuodev.top/2026/04/41cda412523b8691c310ac1a7ab9e4f5.png)
+![image-20210630183914491](https://img.xicuodev.top/2026/04/41cda412523b8691c310ac1a7ab9e4f5.webp)
 
 如果要一键停止，可以运行下面命令：
 
@@ -271,7 +271,7 @@ info replication
 
 结果：
 
-![image-20210630201258802](https://img.xicuodev.top/2026/04/9a1fa41364d90c7e9478662b327ac2d2.png)
+![image-20210630201258802](https://img.xicuodev.top/2026/04/9a1fa41364d90c7e9478662b327ac2d2.webp)
 
 ### 2.5. 测试
 
@@ -291,7 +291,7 @@ info replication
 
 这里我们搭建一个三节点形成的 Sentinel 集群，来监管之前的 Redis 主从集群。如图：
 
-![image-20210701215227018](https://img.xicuodev.top/2026/04/5f85e3d122de3c6269652637db8a004d.png)
+![image-20210701215227018](https://img.xicuodev.top/2026/04/5f85e3d122de3c6269652637db8a004d.webp)
 
 三个 sentinel 实例信息如下：
 
@@ -316,7 +316,7 @@ mkdir s1 s2 s3
 
 如图：
 
-![image-20210701215534714](https://img.xicuodev.top/2026/04/dfeea7c9db8ed431a17e024eafd73892.png)
+![image-20210701215534714](https://img.xicuodev.top/2026/04/dfeea7c9db8ed431a17e024eafd73892.webp)
 
 然后我们在 s1 目录创建一个 sentinel.conf 文件，添加下面的内容：
 
@@ -373,21 +373,21 @@ redis-sentinel s3/sentinel.conf
 
 启动后：
 
-![image-20210701220714104](https://img.xicuodev.top/2026/04/7eb3bfe817e2b60ab982e0f08265d241.png)
+![image-20210701220714104](https://img.xicuodev.top/2026/04/7eb3bfe817e2b60ab982e0f08265d241.webp)
 
 ### 3.4. 测试
 
 尝试让 master 节点 7001 宕机，查看 sentinel 日志：cd ..
 
-![image-20210701222857997](https://img.xicuodev.top/2026/04/ec790b1a762772f51277dabec8556538.png)
+![image-20210701222857997](https://img.xicuodev.top/2026/04/ec790b1a762772f51277dabec8556538.webp)
 
 查看 7003 的日志：
 
-![image-20210701223025709](https://img.xicuodev.top/2026/04/9a304997c415bc43287fbbe6143e73ef.png)
+![image-20210701223025709](https://img.xicuodev.top/2026/04/9a304997c415bc43287fbbe6143e73ef.webp)
 
 查看 7002 的日志：
 
-![image-20210701223131264](https://img.xicuodev.top/2026/04/cb7dd0a246f6221e5200c697317ae1b7.png)
+![image-20210701223131264](https://img.xicuodev.top/2026/04/cb7dd0a246f6221e5200c697317ae1b7.webp)
 
 ## 4. 搭建分片集群
 
@@ -395,7 +395,7 @@ redis-sentinel s3/sentinel.conf
 
 分片集群需要的节点数量较多，这里我们搭建一个最小的分片集群，包含 3 个 master 节点，每个 master 包含一个 slave 节点，结构如下：
 
-![image-20210702164116027](https://img.xicuodev.top/2026/04/8728681613aed37aacc09061cab95c72.png)
+![image-20210702164116027](https://img.xicuodev.top/2026/04/8728681613aed37aacc09061cab95c72.webp)
 
 这里我们会在同一台虚拟机中开启 6 个 redis 实例，模拟分片集群，信息如下：
 
@@ -485,7 +485,7 @@ ps -ef | grep redis
 
 发现服务都已经正常启动：
 
-![image-20210702174255799](https://img.xicuodev.top/2026/04/5eff1160ae346da443fccc1ecabc8a69.png)
+![image-20210702174255799](https://img.xicuodev.top/2026/04/5eff1160ae346da443fccc1ecabc8a69.webp)
 
 如果要关闭所有进程，可以执行命令：
 
@@ -540,11 +540,11 @@ redis-cli --cluster create --cluster-replicas 1 192.168.111.100:7001 192.168.111
 
 运行后的样子：
 
-![image-20210702181101969](https://img.xicuodev.top/2026/04/2ca044ece6df9c9a4bbf5dbc0660bbfc.png)
+![image-20210702181101969](https://img.xicuodev.top/2026/04/2ca044ece6df9c9a4bbf5dbc0660bbfc.webp)
 
 这里输入 yes，则集群开始创建：
 
-![image-20210702181215705](https://img.xicuodev.top/2026/04/201a1e2223372fc3b6eccf75028d49c1.png)
+![image-20210702181215705](https://img.xicuodev.top/2026/04/201a1e2223372fc3b6eccf75028d49c1.webp)
 
 通过命令可以查看集群状态：
 
@@ -552,7 +552,7 @@ redis-cli --cluster create --cluster-replicas 1 192.168.111.100:7001 192.168.111
 redis-cli -p 7001 cluster nodes
 ```
 
-![image-20210702181922809](https://img.xicuodev.top/2026/04/e97f6f66cd9305c5603402beca72307c.png)
+![image-20210702181922809](https://img.xicuodev.top/2026/04/e97f6f66cd9305c5603402beca72307c.webp)
 
 ### 4.5. 测试
 
@@ -571,7 +571,7 @@ set a 1
 
 结果悲剧了：
 
-![image-20210702182343979](https://img.xicuodev.top/2026/04/0e77f5bda2edb05a977062ba81fbcf82.png)
+![image-20210702182343979](https://img.xicuodev.top/2026/04/0e77f5bda2edb05a977062ba81fbcf82.webp)
 
 集群操作时，需要给 `redis-cli` 加上 `-c` 参数才可以：
 
@@ -581,4 +581,4 @@ redis-cli -c -p 7001
 
 这次可以了：
 
-![image-20210702182602145](https://img.xicuodev.top/2026/04/856ed50516aa4fa0d394888ad684166d.png)
+![image-20210702182602145](https://img.xicuodev.top/2026/04/856ed50516aa4fa0d394888ad684166d.webp)

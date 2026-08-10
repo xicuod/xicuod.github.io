@@ -55,7 +55,7 @@ title: Java 异常
 
 Java 把异常当作对象来处理，并定义一个基类 `java.lang.Throwable` 作为所有异常的超类。Java API 已经定义了许多异常类，它们分为两大类：错误 `Error` 和异常 `Exception`。
 
-![Java 异常体系结构](https://img.xicuodev.top/2026/02/091ad4491346a38db16095eb39423e0f.png "Java 异常体系结构")
+![Java 异常体系结构](https://img.xicuodev.top/2026/02/091ad4491346a38db16095eb39423e0f.webp "Java 异常体系结构")
 
 - `java.lang.Throwable`
   - `Error`：系统级别错误，属于严重问题。

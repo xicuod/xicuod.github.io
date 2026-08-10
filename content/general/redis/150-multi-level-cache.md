@@ -10,7 +10,7 @@ title: 多级缓存架构
 
 介绍多级缓存；它如何在各个环节提升性能；多级缓存流程：用户，浏览器客户端缓存，nginx本地缓存，redis，tomcat进程缓存，数据库；贴个多级缓存流程图：
 
-![多级缓存流程](https://img.xicuodev.top/2026/04/22db8f2753342b0b115b644c2e9e3aac.png "多级缓存流程")
+![多级缓存流程](https://img.xicuodev.top/2026/04/22db8f2753342b0b115b644c2e9e3aac.webp "多级缓存流程")
 
 由于……，nginx职责变大，变成业务nginx，……，所以需要部署为集群，再另外部署一个专门反代和负载的nginx；redis tomcat mysql 都可以变成集群；
 
@@ -507,7 +507,7 @@ public @interface CanalTable {
 
 ## 多级缓存总结
 
-![多级缓存架构](https://img.xicuodev.top/2026/04/c5bd855dff8cb18849664b1aa0af05e3.png "多级缓存架构")
+![多级缓存架构](https://img.xicuodev.top/2026/04/c5bd855dff8cb18849664b1aa0af05e3.webp "多级缓存架构")
 
 ![我的多级缓存架构](https://img.xicuodev.top/2026/04/0de1d7dfaa8f49516fbcdeb592c0b65d.svg "我的多级缓存架构")
 

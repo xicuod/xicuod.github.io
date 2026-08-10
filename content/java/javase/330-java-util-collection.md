@@ -10,7 +10,7 @@ title: java.util.Collection
 
 ## 单列集合的体系结构
 
-![Java 单列集合体系结构](https://img.xicuodev.top/2026/02/3841948776578a0d6af1c2711cb9c681.png "Java 单列集合体系结构")
+![Java 单列集合体系结构](https://img.xicuodev.top/2026/02/3841948776578a0d6af1c2711cb9c681.webp "Java 单列集合体系结构")
 
 - `java.util.Collection` 接口 (←你在这里)
   - [`java.util.List`]({{% sref "java-util-list" %}}) 接口

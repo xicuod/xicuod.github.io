@@ -23,7 +23,7 @@ title: java.util.Map
 - [Java TreeMap 类]()
 
 
-![Java 双列集合体系结构](https://img.xicuodev.top/2026/02/0c34245f8f6d20b2d1e61f4c6020d2c7.png "Java 双列集合体系结构")
+![Java 双列集合体系结构](https://img.xicuodev.top/2026/02/0c34245f8f6d20b2d1e61f4c6020d2c7.webp "Java 双列集合体系结构")
 
 ## `Map` 的方法
 

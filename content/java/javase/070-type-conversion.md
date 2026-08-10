@@ -6,7 +6,7 @@ title: Java 类型转换
 
 ## 隐式转换 (自动转换)
 
-![Java 基本数据类型的取值范围](https://img.xicuodev.top/2026/02/f1c2108a0e96c7299fd0e8ace3329dd6.png "Java 基本数据类型的取值范围")
+![Java 基本数据类型的取值范围](https://img.xicuodev.top/2026/02/f1c2108a0e96c7299fd0e8ace3329dd6.webp "Java 基本数据类型的取值范围")
 
 - 数值类型的隐式转换：看取值范围大小，而非内存占用大小。只有大范围完全覆盖小范围时，才能隐式转换。因为范围覆盖，宽内存的 `long`8 也可隐式转换为窄内存的 `float`4。
   - `byte`1 → `short`2, `char`2 → `int`4 → `long`8 → `float`4 → `double`8

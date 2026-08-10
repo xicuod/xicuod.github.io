@@ -68,7 +68,7 @@ Windows 下常见的有关网络的 cmd 命令：
 - OSI 参考模型：世界互联协议标准，全球通信规范，因模型过于理想化，未能取得广泛应用。
 - TCP/IP 参考模型 = TCP/IP 协议：事实上的国际标准。
 
-![OSI 参考模型和 TCP/IP 参考模型](https://img.xicuodev.top/2026/03/443d91a3a1d179e80d42e9aa7cf7ebe4.png "OSI 参考模型和 TCP/IP 参考模型")
+![OSI 参考模型和 TCP/IP 参考模型](https://img.xicuodev.top/2026/03/443d91a3a1d179e80d42e9aa7cf7ebe4.webp "OSI 参考模型和 TCP/IP 参考模型")
 
 ### 两个重要的传输层协议：UDP 和 TCP
 
@@ -97,9 +97,9 @@ TCP (传输控制协议, Transmission Control Protocol)：TCP 是面向连接的
 - 三次握手：确保连接建立
 - 四次挥手：确保连接断开，且数据处理完毕
 
-![TCP 的三次握手](https://img.xicuodev.top/2026/03/f38625b5545919b68e8278107b338887.png "TCP 的三次握手")
+![TCP 的三次握手](https://img.xicuodev.top/2026/03/f38625b5545919b68e8278107b338887.webp "TCP 的三次握手")
 
-![TCP 的四次挥手](https://img.xicuodev.top/2026/03/bd8a81f5d69b20a835104ba5a5d3a6e0.png "TCP 的四次挥手")
+![TCP 的四次挥手](https://img.xicuodev.top/2026/03/bd8a81f5d69b20a835104ba5a5d3a6e0.webp "TCP 的四次挥手")
 
 ## `java.net.InetAddress`
 

@@ -4,11 +4,11 @@ slug: linux-permission-control
 title: Linux 权限控制信息
 ---
 
-![Linux 权限控制信息](https://img.xicuodev.top/2026/03/0468f6ca2943aad17a63e01a634cfdb0.png "Linux 权限控制信息")
+![Linux 权限控制信息](https://img.xicuodev.top/2026/03/0468f6ca2943aad17a63e01a634cfdb0.webp "Linux 权限控制信息")
 
 权限控制信息：权限细节总共分为 10 个槽位，按 1-3-3-3 的布局分为 4 组
 
-- ![Linux 权限细节](https://img.xicuodev.top/2026/03/4587548c2f5b8764e715b39055cf669d.png "Linux 权限细节")
+- ![Linux 权限细节](https://img.xicuodev.top/2026/03/4587548c2f5b8764e715b39055cf669d.webp "Linux 权限细节")
 - 前 1 组：`-` 文件、`d` 文件夹、`l` 软链接
 - 后 3 组：`r` 可读、`w` 可写、`x` 可执行、`-` 无此权限
 - `drwxr-xr-x`：文件夹、所属用户 rwx、所属用户组 r-x、其他用户 r-x

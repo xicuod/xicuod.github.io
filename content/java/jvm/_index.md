@@ -6,7 +6,7 @@ title: Java 虚拟机 (JVM)
 
 ## JVM 学习路线图 Roadmap
 
-![](https://img.xicuodev.top/2026/02/c6cac91c98173af78878ca2d112a4286.png)
+![](https://img.xicuodev.top/2026/02/c6cac91c98173af78878ca2d112a4286.webp)
 
 ## JVM 推荐学习顺序
 

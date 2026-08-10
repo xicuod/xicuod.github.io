@@ -4,7 +4,7 @@ slug: c-sharp-data-types
 title: C# 数据类型
 ---
 
-![](https://img.xicuodev.top/2026/04/3162e7090e7061071b652af2474f250d.png)
+![](https://img.xicuodev.top/2026/04/3162e7090e7061071b652af2474f250d.webp)
 
 var与dynamic区别：
 
@@ -46,7 +46,7 @@ var与dynamic区别：
 
 * 可装拆箱
 * 可实现接口
-	![](https://img.xicuodev.top/2026/04/e8884e9ef938ba4fed54cdc5936c66f1.png)
+	![](https://img.xicuodev.top/2026/04/e8884e9ef938ba4fed54cdc5936c66f1.webp)
 * 不能继承
 * 不能有显式无参构造器：`public FooStruct() {}` (x)
 * 可以有显式有参构造器：`public BarStruct(args) {}` (o)
@@ -82,7 +82,7 @@ Object 类是所有类的基类，所有C#类（包括自定义类）都能追�
 * 接口和抽象类都是“软件工程的产物”。
 * 具体类→抽象类→接口：越来越抽象，内部实现的东西越来越少。
 
-![](https://img.xicuodev.top/2026/04/08061421418bac6e9a25ce84916e9778.png)
+![](https://img.xicuodev.top/2026/04/08061421418bac6e9a25ce84916e9778.webp)
 
 #### 抽象类 Abstract Class
 

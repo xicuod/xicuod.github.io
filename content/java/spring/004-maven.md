@@ -14,7 +14,7 @@ Maven 作用：
 - 统一的项目结构：提供跨 IDE (eclipse、Myelipse 10、IntelliJ IDEA) 的标准、统一的项目结构
 - 标准的项目构建：标准跨平台 (Linux、Windows、macOS) 的自动化项目构建方式，清理、编译、测试、打包、发布
 
-![Maven 体系结构](https://img.xicuodev.top/2026/03/f83ca400d675a959826308e5db62303f.png "Maven 体系结构")
+![Maven 体系结构](https://img.xicuodev.top/2026/03/f83ca400d675a959826308e5db62303f.webp "Maven 体系结构")
 
 ## Maven 的安装和配置
 
@@ -81,7 +81,7 @@ Maven 中有 3 套相互独立的生命周期：
 
 每套生命周期细分为若干个阶段，同一生命周期内，各阶段按顺序执行，后一个阶段依赖于前一个阶段，执行一个阶段的脚本会先执行前面的所有阶段，再执行该阶段：
 
-![Maven 生命周期](https://img.xicuodev.top/2026/03/1b8f7a69a70eb70dac7ab41687d70211.png "Maven 生命周期")
+![Maven 生命周期](https://img.xicuodev.top/2026/03/1b8f7a69a70eb70dac7ab41687d70211.webp "Maven 生命周期")
 
 clean 生命周期：
 
@@ -139,7 +139,7 @@ Maven 坐标是资源的唯一标识，通过该坐标可以唯一定位资源�
 - 直接依赖：在当前项目中通过依赖配置建立的依赖关系
 - 间接依赖：被依赖的资源如果依赖其他资源，当前项目间接依赖其他资源
 
-![Maven 依赖传递](https://img.xicuodev.top/2026/03/dcc74493905ccf2d6760b9e1a86961df.png "Maven 依赖传递")
+![Maven 依赖传递](https://img.xicuodev.top/2026/03/dcc74493905ccf2d6760b9e1a86961df.webp "Maven 依赖传递")
 
 排除依赖：主动断开依赖的资源，被排除的资源无需指定版本
 

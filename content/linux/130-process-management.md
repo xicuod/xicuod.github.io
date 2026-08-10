@@ -15,7 +15,7 @@ title: Linux 进程管理
 
 一般，固定用法就是 `ps -ef` 列出全部进程的全部信息，`ps -ef | grep 关键字`列出指定进程的信息。
 
-![Linux ps 进程信息](https://img.xicuodev.top/2026/03/557646e4a11a0d5ccac81b2344dc240d.png "Linux ps 进程信息")
+![Linux ps 进程信息](https://img.xicuodev.top/2026/03/557646e4a11a0d5ccac81b2344dc240d.webp "Linux ps 进程信息")
 
 - UID：进程所属的用户 ID
 - PID：进程的进程号 ID

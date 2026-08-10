@@ -244,7 +244,7 @@ public void addSeckillVoucher(Voucher voucher) {
 
 最后，让 Tomcat 异步读取队列中的 id 信息，来执行数据库操作。因为这个场景下，Redis 已经做到高可用了，数据库只是兜底和归档，数据同步时效性没那么高，完全可以异步地用数据库能够接受的频率同步数据。也就是说，这种场景只需要保证数据的最终一致性即可。
 
-![秒杀问题的异步优化](https://img.xicuodev.top/2026/03/5c9ac9d8d7dd86dba26227275f93d41f.png "秒杀问题的异步优化")
+![秒杀问题的异步优化](https://img.xicuodev.top/2026/03/5c9ac9d8d7dd86dba26227275f93d41f.webp "秒杀问题的异步优化")
 
 #### Lua 脚本实现数据校验和扣减 Redis 库存逻辑
 

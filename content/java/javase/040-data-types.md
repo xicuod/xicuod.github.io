@@ -14,9 +14,9 @@ Java 不是完全[面向对象]({{% sref "java-oop" %}})的语言，它更务实
   - 字符类型：`char` 2
 - 布尔类型：`boolean` 1b = 1 位 = 1 比特
 
-![Java 基本数据类型的取值范围和内存占用](https://img.xicuodev.top/2026/02/2b40b5890c9e642d191304e6e91b2bde.png "Java 基本数据类型的取值范围和内存占用")
+![Java 基本数据类型的取值范围和内存占用](https://img.xicuodev.top/2026/02/2b40b5890c9e642d191304e6e91b2bde.webp "Java 基本数据类型的取值范围和内存占用")
 
-![Java 基本数据类型的取值范围比较](https://img.xicuodev.top/2026/02/f1c2108a0e96c7299fd0e8ace3329dd6.png "Java 基本数据类型的取值范围比较")
+![Java 基本数据类型的取值范围比较](https://img.xicuodev.top/2026/02/f1c2108a0e96c7299fd0e8ace3329dd6.webp "Java 基本数据类型的取值范围比较")
 
 - 取值范围：`byte`<`short`<`int`<`long`<`float`<`double`
 - 内存占用：`boolean`1b<`byte`1<`short`2=`char`2<`int`4=`float`4<`double`8=`long`8
