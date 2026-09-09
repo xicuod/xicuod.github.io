@@ -93,12 +93,14 @@ disableKinds = []
       theme = 'preferred_color_scheme'
       lang = 'zh-CN'
       crossorigin = 'anonymous'
-    [params.imageZoom]
-      enable = true
-    [params.blog.list]
-      displayTags = true
-    [params.toc]
-      displayTags = true
+  [params.imageZoom]
+    enable = true
+  [params.blog.list]
+    displayTags = true
+  [params.toc]
+    displayTags = true
+  [params.page.contextMenu]
+    enable = true
 
 [permalinks]
   [permalinks.page]
@@ -112,11 +114,17 @@ disableKinds = []
   noClasses = true
   style = 'dracula'
 
+[markup.goldmark.renderer]
+  unsafe = true
+
 [markup.goldmark.extensions.passthrough]
-enable = true
-  [markup.goldmark.extensions.passthrough.delimiters]
+  enable = true
+
+[markup.goldmark.extensions.passthrough.delimiters]
   block = [ [ '\\[', '\\]' ], [ '$$', '$$' ] ]
   inline = [ [ '\\(', '\\)' ], [ '$', '$' ] ]
 
 [outputs]
   home = ['html', 'rss']
+  page = ['html', 'markdown']
+  section = ['html', 'rss', 'markdown']

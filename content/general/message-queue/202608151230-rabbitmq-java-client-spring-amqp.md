@@ -302,7 +302,7 @@ public Binding directQueue1BindingBlue(Queue directQueue1, DirectExchange direct
 }
 ```
 
-`@RabbitListener` 一个注解即可一口气完成队列、交换机和绑定的声明，还支持多个 RoutingKey：
+`@RabbitListener` 一个注解即可一口气完成队列、交换机、绑定关系和消费者方法的声明，还支持多个 RoutingKey：
 
 ```java
 @RabbitListener(bindings = @QueueBinding(
@@ -314,6 +314,8 @@ public void listenDirectQueue1(String msg) {
     System.out.println("消费者1接收到Direct消息：【" + msg + "】");
 }
 ```
+
+只有在不需要消费者的情况下，才不用注解方式。
 
 ## 消息转换器
 
